@@ -7,7 +7,8 @@ module.exports = {
     },
     devtool: "inline-source-map",
     entry: {
-        index: "./src/index.js",
+        index: "./src/js/index.js",
+        layout: "./src/js/layout.js",
     }, 
     mode: "development", 
     module: {

@@ -1,0 +1,41 @@
+:root {
+    --grey: #323031;
+    --violet: #57467b;
+    --blue-grey: #7cb4b8;
+    --aquamarine: #70f8ba;
+    --lime: #cafe48;
+    --teal: #177e89;
+    --poppy: #db3a34;
+    --sunglow: #ffc857;
+}
+
+body {
+    color: var(--grey);
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--blue-grey);
+}
+
+h1 {
+    margin: 0;
+}
+
+.nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+    background-color: var(--teal);
+}
+
+.nav > * {
+    margin-left: 1rem;
+}
+
+@media screen and (min-width: 1000px) {
+    .container {}
+}
