@@ -26,6 +26,19 @@ export default class Layout {
 
     set sidebar (elem) { this._sidebar = elem; }
 
+    #getMagnifyingGlass () {
+        const fontAwesomeScript = document.createElement("script");
+        fontAwesomeScript.src = "https://kit.fontawesome.com/9c11ce4a9b.js";
+        fontAwesomeScript.crossorigin = "anonymous";
+        document.head.appendChild(fontAwesomeScript);
+
+        const searchGlass = document.createElement("i");
+        searchGlass.classList.add("fa-solid");
+        searchGlass.classList.add("fa-magnifying-glass");
+
+        return searchGlass;
+    }
+
     #buildNavPanel () {
         this.nav = document.createElement("div");
         this.nav.classList.add("nav");
@@ -37,15 +50,27 @@ export default class Layout {
         logo.classList.add("logo");
         this.nav.appendChild(logo);
 
+        const toolBox = document.createElement("div");
+        toolBox.classList.add("nav-toolbox");
+
+        // Add Search Bar
+        this.searchbar = document.createElement("div");
+        const glass = this.#getMagnifyingGlass();
+        // const searchInput = 
+        this.searchbar.appendChild(glass);
+        this.searchbar.classList.add("searchbar");
+        this.searchbar.addEventListener("click", (e) => {
+            this.searchbar.classList.toggle("find");
+        });
+        toolBox.appendChild(this.searchbar)
+
+
         // Add Sidebar button
         const sbCont = document.createElement("div");
         sbCont.classList.add("sidebar-button");
         sbCont.addEventListener("click", (e) => {
             sbCont.classList.toggle("change");
-            // if (this.sidebar.style.display === "block")
-            //     this.sidebar.style.display = "none";
-            // else
-            //     this.sidebar.style.display = "block"
+            this.sidebar.classList.toggle("expand");
         });
 
         for (var i = 1; i < 3; i++) {
@@ -53,15 +78,20 @@ export default class Layout {
             barN.classList.add(`bar${i}`);
             sbCont.appendChild(barN);
         }
-        this.nav.appendChild(sbCont);
+        toolBox.appendChild(sbCont);
+        this.nav.appendChild(toolBox);
 
         this.container.appendChild(this.nav);
     }
 
-    #buildMainElement () {
+    #buildContent (groups) {}
+
+    #buildSidebar (groups) {}
+
+    #buildMainElement (groups) {
         this.main = document.createElement("div");
         this.main.classList.add("main");
-
+ 
         // Add Content to Main Div
         this.content = document.createElement("div");
         this.content.classList.add("content");
@@ -76,11 +106,11 @@ export default class Layout {
         this.container.appendChild(this.main);
     }
 
-    render () {
+    render (groups) {
         // Build Navigation Panel
         this.#buildNavPanel();
 
         // Build Main Element
-        this.#buildMainElement();
+        this.#buildMainElement(groups);
     }
 };

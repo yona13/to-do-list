@@ -9,6 +9,8 @@ module.exports = {
     entry: {
         index: "./src/js/index.js",
         layout: "./src/js/layout.js",
+        toDoList: "./src/js/to-do-list.js",
+        group: "./src/js/group.js",
     }, 
     mode: "development", 
     module: {

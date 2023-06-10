@@ -1,8 +1,12 @@
 :root {
-    --grey: #323031;
+    --raisin-black: #32292f;
+    --davys-gray: #575366;
+    --ivory: #f9f9ed;
+    --gray: #323031;
     --violet: #57467b;
-    --blue-grey: #7cb4b8;
+    --blue-gray: #7cb4b8;
     --aquamarine: #70f8ba;
+    --mint-green: #d1e3dd;
     --lime: #cafe48;
     --teal: #177e89;
     --poppy: #db3a34;
@@ -10,13 +14,14 @@
 }
 
 body {
-    color: var(--grey);
+    color: var(--gray);
 }
 
 .container {
     width: 100vw;
     height: 100vh;
-    background-color: var(--blue-grey);
+    background-color: var(--mint-green);
+    overflow: hidden;
 }
 
 .nav {
@@ -25,7 +30,8 @@ body {
     justify-content: space-between;
     align-items: center;
     height: 4rem;
-    background-color: var(--teal);
+    color: var(--ivory);
+    background-color: var(--raisin-black);
 }
 
 .logo {
@@ -33,33 +39,59 @@ body {
     margin-left: 1rem;
 }
 
+.nav-toolbox {
+    display: flex;
+    flex-direction: row;
+}
+
+.searchbar {
+    font-size: 2rem;
+    padding: 0.6rem;
+    margin-right: 1rem;
+    border-radius: 0.4rem;
+}
+
+.searchbar:hover {
+    background-color: var(--violet);
+}
+
+:not(.searchbar:focus) {
+    background-color: none;
+}
+
+.find {
+    width: 15rem;
+    background-color: var(--violet);
+}
+
 .sidebar-button {
     display: none;
     cursor: pointer;
     color: inherit;
-    margin-right: 1rem;
+    margin: 0.6rem;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .bar1, .bar2 {
-    width: 3rem;
+    width: 2rem;
     height: 0.5rem;
-    margin: 1rem 0;
-    background-color: var(--grey);
+    margin: 0.5rem 0;
+    background-color: var(--ivory);
     transition: 0.4s;
 }
 
 .change .bar1 {
-    transform: translate(0, 0.75rem) rotate(-45deg);
+    transform: translate(0, 0.5rem) rotate(-45deg);
 }
 
 .change .bar2 {
-    transform: translate(0, -0.75rem) rotate(45deg);
+    transform: translate(0, -0.5rem) rotate(45deg);
 }
 
 .main {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-template-areas: "sidebar content";
+    position: relative;
+    display: flex;
+    flex-direction: row;
 }
 
 .content, .sidebar {
@@ -67,20 +99,49 @@ body {
 }
 
 .content {
-    grid-area: content;
+    order: 2;
+    width: 75vw;
 }
 
 .sidebar {
-    grid-area: sidebar;
-    background-color: var(--aquamarine);
+    position: relative;
+    order: 1;
+    background-color: var(--davys-gray);
+    width: 25vw
 }
 
 @media (max-width: 550px) {
+    .logo {
+        font-size: 2rem;
+    }
+
+    .searchbar {
+        font-size: 1.5rem;
+        padding: 1rem;
+    }
+
+    .find {
+        width: 8rem;
+    }
+
     .sidebar-button {
         display: inline-block;
     }
 
-    .main {
-        display: flex;
+    .content {
+        order: 1;
+        width: 100vw;
+    }
+
+    .sidebar {
+        position: absolute;
+        order: 2;
+        width: 10rem;
+        right: -10rem;
+        transition: all 0.4s;
+    }
+
+    .sidebar.expand {
+        right: 0;
     }
 }
