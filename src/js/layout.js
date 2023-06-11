@@ -1,7 +1,25 @@
 export default class Layout {
+    #searching = false;
+    #expanded = false;
+
     constructor () {
         this.container = document.createElement("div");
         this.container.classList.add("container");
+        this.container.addEventListener("click", (e) => {
+            if (this.#searching) {
+                this.#searching = false;
+                this.searchbar.classList.remove("find");
+                this.tasksearch.classList.remove("active");
+            } else if (this.searchbar.classList.contains("find"))
+                this.#searching = true;
+
+            if (this.#expanded) {
+                this.#expanded = false;
+                this.barcontainer.classList.remove("change");
+                this.sidebar.classList.remove("expand");
+            } else if (this.barcontainer.classList.contains("change"))
+                this.#expanded = true;
+        });
 
         document.body.appendChild(this.container);
     }
@@ -13,6 +31,18 @@ export default class Layout {
     get nav () { return this._nav; }
 
     set nav (elem) { this._nav = elem; }
+
+    get searchbar () { return this._searchbar; }
+
+    set searchbar (elem) { this._searchbar = elem; }
+
+    get tasksearch () { return this._tasksearch; }
+
+    set tasksearch (elem) { this._tasksearch = elem; }
+
+    get barcontainer () { return this._barcontainer; }
+
+    set barcontainer (elem) { this._barcontainer = elem; }
 
     get main () { return this._main; }
 
@@ -45,7 +75,6 @@ export default class Layout {
         
         // Add Logo
         const logo = document.createElement("div");
-        // logo.textContent = String.fromCharCode(10004);
         logo.textContent = "#TODO:"
         logo.classList.add("logo");
         this.nav.appendChild(logo);
@@ -56,57 +85,86 @@ export default class Layout {
         // Add Search Bar
         this.searchbar = document.createElement("div");
         const glass = this.#getMagnifyingGlass();
-        // const searchInput = 
         this.searchbar.appendChild(glass);
+        this.tasksearch = document.createElement("input");
+        this.tasksearch.classList.add("task-search");
+        this.tasksearch.addEventListener("keypress", (e) => {
+            if (e.key === "Enter")
+                console.log(`Searching for ${this.tasksearch.value};`);
+        });
+
+        this.searchbar.appendChild(this.tasksearch);
         this.searchbar.classList.add("searchbar");
         this.searchbar.addEventListener("click", (e) => {
             this.searchbar.classList.toggle("find");
+            this.tasksearch.classList.toggle("active");
+            if (this.tasksearch.classList.contains("active"))
+                this.tasksearch.focus();
         });
-        toolBox.appendChild(this.searchbar)
-
+        toolBox.appendChild(this.searchbar);
 
         // Add Sidebar button
-        const sbCont = document.createElement("div");
-        sbCont.classList.add("sidebar-button");
-        sbCont.addEventListener("click", (e) => {
-            sbCont.classList.toggle("change");
+        this.barcontainer = document.createElement("div");
+        this.barcontainer.classList.add("sidebar-button");
+        this.barcontainer.addEventListener("click", (e) => {
+            this.barcontainer.classList.toggle("change");
             this.sidebar.classList.toggle("expand");
         });
 
         for (var i = 1; i < 3; i++) {
             const barN = document.createElement("div");
             barN.classList.add(`bar${i}`);
-            sbCont.appendChild(barN);
+            this.barcontainer.appendChild(barN);
         }
-        toolBox.appendChild(sbCont);
+        toolBox.appendChild(this.barcontainer);
         this.nav.appendChild(toolBox);
 
         this.container.appendChild(this.nav);
     }
 
-    #buildContent (groups) {}
+    #buildContent (groups) {
+        this.content = document.createElement("div");
+        this.content.classList.add("content");
+        this.main.appendChild(this.content);
+    }
 
-    #buildSidebar (groups) {}
+    #buildSidebar (groups) {
+        this.sidebar = document.createElement("div");
+        this.sidebar.classList.add("sidebar");
+
+        // Add Groups Title
+        const groupTitle = document.createElement("h1");
+        groupTitle.textContent = "Groups";
+        this.sidebar.appendChild(groupTitle);
+
+        // Add List Element
+        const groupList = document.createElement("ul");
+        const addGroupButton = document.createElement("button");
+        addGroupButton.classList.add("add-group-button");
+        addGroupButton.textContent = "+ Group";
+        this.sidebar.appendChild(groupList);
+        this.sidebar.appendChild(addGroupButton);
+
+        this.main.appendChild(this.sidebar);
+    }
 
     #buildMainElement (groups) {
         this.main = document.createElement("div");
         this.main.classList.add("main");
  
         // Add Content to Main Div
-        this.content = document.createElement("div");
-        this.content.classList.add("content");
-        this.main.appendChild(this.content);
+        this.#buildContent(groups);
 
         // Add Sidebar to Main Div
-        this.sidebar = document.createElement("div");
-        this.sidebar.classList.add("sidebar");
-        this.main.appendChild(this.sidebar);
+        this.#buildSidebar(groups);
 
         // Add to Container
         this.container.appendChild(this.main);
     }
 
     render (groups) {
+        this.container.innerHTML = "";
+
         // Build Navigation Panel
         this.#buildNavPanel();
 

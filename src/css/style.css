@@ -15,6 +15,12 @@
 
 body {
     color: var(--gray);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h1 {
+    margin: 0;
+    font-weight: inherit;
 }
 
 .container {
@@ -49,19 +55,30 @@ body {
     padding: 0.6rem;
     margin-right: 1rem;
     border-radius: 0.4rem;
+    width: 2.3rem;
+    transition: 0.4s width ease-in-out;
 }
 
 .searchbar:hover {
     background-color: var(--violet);
 }
 
-:not(.searchbar:focus) {
-    background-color: none;
-}
-
 .find {
     width: 15rem;
     background-color: var(--violet);
+}
+
+.task-search {
+    width: 0;
+    background: none;
+    outline: none;
+    border: none;
+    color: inherit;
+    transition: 0.4s width ease-in-out;
+}
+
+.active {
+    width: 12rem;
 }
 
 .sidebar-button {
@@ -107,7 +124,19 @@ body {
     position: relative;
     order: 1;
     background-color: var(--davys-gray);
-    width: 25vw
+    width: 25vw;
+    color: var(--ivory);
+}
+
+.sidebar > * {
+    margin-left: 1rem;
+}
+
+.add-group-button {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.2rem;
 }
 
 @media (max-width: 550px) {
@@ -118,10 +147,15 @@ body {
     .searchbar {
         font-size: 1.5rem;
         padding: 1rem;
+        width: 1.8rem;
     }
 
     .find {
         width: 8rem;
+    }
+
+    .active {
+        width: 5rem;
     }
 
     .sidebar-button {
