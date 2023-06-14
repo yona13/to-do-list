@@ -132,7 +132,7 @@ h1 {
     margin-left: 1rem;
 }
 
-.add-group-button {
+.add-project-button {
     background: none;
     border: none;
     color: inherit;
@@ -170,8 +170,8 @@ h1 {
     .sidebar {
         position: absolute;
         order: 2;
-        width: 10rem;
-        right: -10rem;
+        width: 12rem;
+        right: -12rem;
         transition: all 0.4s;
     }
 

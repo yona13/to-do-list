@@ -56,6 +56,14 @@ export default class Layout {
 
     set sidebar (elem) { this._sidebar = elem; }
 
+    get popup () { return this._popup; }
+
+    set popup (elem) { this._popup = elem; }
+
+    get overlay () { return this._overlay; }
+
+    set overlay (elem) { this._overlay = elem; }
+
     #getMagnifyingGlass () {
         const fontAwesomeScript = document.createElement("script");
         fontAwesomeScript.src = "https://kit.fontawesome.com/9c11ce4a9b.js";
@@ -122,53 +130,77 @@ export default class Layout {
         this.container.appendChild(this.nav);
     }
 
-    #buildContent (groups) {
+    #buildContent () {
         this.content = document.createElement("div");
         this.content.classList.add("content");
+
+        // Add Project Specific List
+
+        // Add Add-To-Do Button
+        const todoButton = document.createElement("button");
+        todoButton.classList.add("add-to-do-button");
+        todoButton.textContent = "+ To Do";
+        todoButton.addEventListener("click", (e) => {});
+
+        this.content.appendChild(todoButton);
+
         this.main.appendChild(this.content);
     }
 
-    #buildSidebar (groups) {
+    #buildSidebar () {
         this.sidebar = document.createElement("div");
         this.sidebar.classList.add("sidebar");
 
-        // Add Groups Title
-        const groupTitle = document.createElement("h1");
-        groupTitle.textContent = "Groups";
-        this.sidebar.appendChild(groupTitle);
+        // Add Projects Title
+        const projectsTitle = document.createElement("h1");
+        projectsTitle.textContent = "Projects";
+        this.sidebar.appendChild(projectsTitle);
 
         // Add List Element
-        const groupList = document.createElement("ul");
-        const addGroupButton = document.createElement("button");
-        addGroupButton.classList.add("add-group-button");
-        addGroupButton.textContent = "+ Group";
-        this.sidebar.appendChild(groupList);
-        this.sidebar.appendChild(addGroupButton);
+        const projectsList = document.createElement("ul");
+        const addProjectButton = document.createElement("button");
+        addProjectButton.classList.add("add-project-button");
+        addProjectButton.textContent = "+ Project";
+        this.sidebar.appendChild(projectsList);
+        this.sidebar.appendChild(addProjectButton);
 
         this.main.appendChild(this.sidebar);
     }
 
-    #buildMainElement (groups) {
+    #buildMainElement () {
         this.main = document.createElement("div");
         this.main.classList.add("main");
  
         // Add Content to Main Div
-        this.#buildContent(groups);
+        this.#buildContent();
 
         // Add Sidebar to Main Div
-        this.#buildSidebar(groups);
+        this.#buildSidebar();
 
         // Add to Container
         this.container.appendChild(this.main);
     }
 
-    render (groups) {
+    #buildPopup () {
+        this.overlay = document.createElement("div");
+        this.overlay.classList.add("overlay");
+        document.body.appendChild(this.overlay);
+
+        this.popup = document.createElement("div");
+        this.popup.classList.add("popup");
+        document.body.appendChild(this.popup);
+    }
+
+    render () {
         this.container.innerHTML = "";
 
         // Build Navigation Panel
         this.#buildNavPanel();
 
         // Build Main Element
-        this.#buildMainElement(groups);
+        this.#buildMainElement();
+
+        // Build Pop-up Element
+        this.#buildPopup();
     }
 };
