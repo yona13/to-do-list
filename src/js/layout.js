@@ -1,80 +1,159 @@
 import PopupManager from "./popup-manager.js";
 import ProjectManager from "./project-manager.js";
+import ToDoList from "./to-do-list.js";
 
 export default class Layout {
+    /** Private Variables in Layout */
     #searching = false;
     #expanded = false;
     #popupManager = new PopupManager();
-    #projectManager = new ProjectManager(this.#popupManager);
+    #toDoList = new ToDoList(this.#popupManager);
+    #projectManager = new ProjectManager(this.#popupManager, this.#toDoList);
 
+    /**
+     * Layout Class
+     * 
+     * Generates DOM Container and elements within utilising
+     * Popup-Manager, To-Do-List & Project-Manager classes to
+     * generate other elements
+     */
     constructor () {
+        // Generate Container for all DOM Elements
         this.container = document.createElement("div");
         this.container.classList.add("container");
+
+        // Generate Main Element
+        this.main = document.createElement("div");
+        this.main.classList.add("main");
+
+        // Enable/Disable DOM Elements that may be enabled, if required
         this.container.addEventListener("click", (e) => {
+            // If Searchbar is activated, reset Searchbar
             if (this.#searching) {
                 this.#searching = false;
                 this.searchbar.classList.remove("find");
                 this.tasksearch.classList.remove("searching");
-            } else if (this.searchbar.classList.contains("find"))
+            } 
+            
+            // Otherwise, enable Searchbar
+            else if (this.searchbar.classList.contains("find"))
                 this.#searching = true;
 
+            // If Sidebar is activated, reset Sidebar (tablet view)
             if (this.#expanded) {
                 this.#expanded = false;
                 this.barcontainer.classList.remove("change");
                 this.#projectManager.collapse();
-                // this.sidebar.classList.remove("expand");
-            } else if (this.barcontainer.classList.contains("change"))
+            }
+            
+            // Otherwise, enable Sidebar
+            else if (this.barcontainer.classList.contains("change"))
                 this.#expanded = true;
         });
 
         document.body.appendChild(this.container);
     }
 
+    /**
+     * Get Container Element
+     * 
+     * @returns {Object} Container HTML Element
+     */
     get container () { return this._container; }
 
+    /**
+     * Set Container Element
+     * 
+     * @param {Object} elem - HTML Element for the Container
+     */
     set container (elem) { this._container = elem; }
 
+    /**
+     * Get Navigation Panel Element
+     * 
+     * @returns {Object} Navigation Panel HTML Element
+     */
     get nav () { return this._nav; }
 
+    /**
+     * Set Navigation Panel Element
+     * 
+     * @param {Object} elem - HTML Element for the Navigation Panel
+     */
     set nav (elem) { this._nav = elem; }
 
+    /**
+     * Get Searchbar Element
+     * 
+     * @returns {Object} Searchbar HTML Element
+     */
     get searchbar () { return this._searchbar; }
 
+    /**
+     * Set Searchbar Element
+     * 
+     * @param {Object} elem - HTML Element for the Searchbar
+     */
     set searchbar (elem) { this._searchbar = elem; }
 
+    /** 
+     * Get Task-Search Input Element
+     * 
+     * @returns {Object} Task-Search Input HTML Element
+     */
     get tasksearch () { return this._tasksearch; }
 
+    /**
+     * Set Tash-Search Input Element
+     * 
+     * @param {Object} elem - HTML Element for Task-Search Input
+     */
     set tasksearch (elem) { this._tasksearch = elem; }
 
+    /**
+     * Get 2-Bar Container Element
+     * 
+     * @returns {Object} 2-Bar Container HTML Element
+     */
     get barcontainer () { return this._barcontainer; }
 
+    /**
+     * Set 2-Bar Container Element
+     * 
+     * @param {Object} elem - HTML Element for 2-Bar Container
+     */
     set barcontainer (elem) { this._barcontainer = elem; }
 
+    /**
+     * Get Main Element
+     * 
+     * @returns {Object} Main HTML Element
+     */
     get main () { return this._main; }
 
+    /**
+     * Set Main Element
+     * 
+     * @param {Object} elem - HTML Element for Main Element
+     */
     set main (elem) { this._main = elem; }
 
-    get content () { return this._content; }
-
-    set content (elem) { this._content = elem; }
-
-    // get sidebar () { return this._sidebar; }
-
-    // set sidebar (elem) { this._sidebar = elem; }
-
-    #addBrowserIcon () {
-        const iconLink = document.createElement("link");
-        iconLink.rel = "todo-icon";
-        iconLink.href = TodoIcon;
-        document.head.appendChild(iconLink);
-    }
-
+    /**
+     * Get Magnifying Glass Function
+     * 
+     * Private function that will add Font-Awesome script to index.html head
+     * element, and returns an <i> element for use in the body element
+     * 
+     * @returns {Object} HTML i-Element representing Magnifying Glass
+     */
     #getMagnifyingGlass () {
+        // Add Font-Awesome Script to Head
         const fontAwesomeScript = document.createElement("script");
         fontAwesomeScript.src = "https://kit.fontawesome.com/9c11ce4a9b.js";
         fontAwesomeScript.crossorigin = "anonymous";
         document.head.appendChild(fontAwesomeScript);
 
+        // Create Magnifying Glass <i> element
         const searchGlass = document.createElement("i");
         searchGlass.classList.add("fa-solid");
         searchGlass.classList.add("fa-magnifying-glass");
@@ -82,31 +161,30 @@ export default class Layout {
         return searchGlass;
     }
 
+    /**
+     * Build Navigation Panel Element Function
+     * 
+     * Private Function for Generating all elements associated 
+     * with Navigation Panel including "Logo", Searchbar & 
+     * Sidebar enabling elements
+     */
     #buildNavPanel () {
+        // Geneate Navigation Panel Element
         this.nav = document.createElement("div");
         this.nav.classList.add("nav");
         
-        // Add Logo
+        // Add Title with "Logo" to Navigation Panel
         const logo = document.createElement("div");
         logo.textContent = "#TODO:"
         logo.classList.add("logo");
         this.nav.appendChild(logo);
 
+        // Create Toolbox Element for Navigation Panel
         const toolBox = document.createElement("div");
         toolBox.classList.add("nav-toolbox");
 
-        // Add Search Bar
+        // Create Search Bar for Toolbox
         this.searchbar = document.createElement("div");
-        const glass = this.#getMagnifyingGlass();
-        this.searchbar.appendChild(glass);
-        this.tasksearch = document.createElement("input");
-        this.tasksearch.classList.add("task-search");
-        this.tasksearch.addEventListener("keypress", (e) => {
-            if (e.key === "Enter")
-                console.log(`Searching for ${this.tasksearch.value};`);
-        });
-
-        this.searchbar.appendChild(this.tasksearch);
         this.searchbar.classList.add("searchbar");
         this.searchbar.addEventListener("click", (e) => {
             this.searchbar.classList.toggle("find");
@@ -114,63 +192,73 @@ export default class Layout {
             if (this.tasksearch.classList.contains("active"))
                 this.tasksearch.focus();
         });
-        toolBox.appendChild(this.searchbar);
 
-        // Add Sidebar button
+        // Create Magnifying Glass for Toolbox
+        const glass = this.#getMagnifyingGlass();
+
+        // Create Task-Search Input for Toolbox
+        this.tasksearch = document.createElement("input");
+        this.tasksearch.classList.add("task-search");
+        this.tasksearch.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                console.log(`Searching for ${this.tasksearch.value};`);
+                // TODO: Implement Search..
+            }
+        });
+
+        // For Tablet-View, Create Sidebar Enabling Element
         this.barcontainer = document.createElement("div");
         this.barcontainer.classList.add("sidebar-button");
         this.barcontainer.addEventListener("click", (e) => {
             this.barcontainer.classList.toggle("change");
             this.#projectManager.expand();
-            // this.sidebar.classList.toggle("expand");
         });
 
+        // Create 2-Bars for Sidebar Enabling Element
         for (var i = 1; i < 3; i++) {
             const barN = document.createElement("div");
             barN.classList.add(`bar${i}`);
             this.barcontainer.appendChild(barN);
         }
-        toolBox.appendChild(this.barcontainer);
-        this.nav.appendChild(toolBox);
 
+        // Add Toolbox Elements
+        this.searchbar.appendChild(glass);
+        this.searchbar.appendChild(this.tasksearch);
+        toolBox.appendChild(this.searchbar);
+        toolBox.appendChild(this.barcontainer);
+
+        // Add Toolbox to Navigation Panel 
+        // & Navigation Panel to Container
+        this.nav.appendChild(toolBox);
         this.container.appendChild(this.nav);
     }
 
-    #buildContent () {
-        this.content = document.createElement("div");
-        this.content.classList.add("content");
-
-        // Add Project Specific List
-
-        // Add Add-To-Do Button
-        const todoButton = document.createElement("button");
-        todoButton.classList.add("add-to-do-button");
-        todoButton.textContent = "+ To Do";
-        todoButton.addEventListener("click", (e) => {});
-
-        this.content.appendChild(todoButton);
-
-        this.main.appendChild(this.content);
-    }
-
+    /**
+     * Build Main Element Function
+     * 
+     * Private Function for Generating elements for Main
+     * element, including Sidebar from Project Manager and
+     * Content from To-Do-List
+     */
     #buildMainElement () {
-        this.main = document.createElement("div");
-        this.main.classList.add("main");
- 
-        // Add Content to Main Div
-        this.#buildContent();
-
-        // Add Sidebar to Main Div
+        // Add Sidebar to Main Element
         this.#projectManager.setup();
         this.main.appendChild(this.#projectManager.sidebar);
+ 
+        // Add Content to Main Element
+        this.#toDoList.setup();
+        this.main.appendChild(this.#toDoList.content);
 
-        // Add to Container
+        // Add Main Element to Container Element
         this.container.appendChild(this.main);
     }
 
+    /**
+     * Render Function
+     * 
+     * Function Used for Render To-Do-List Page
+     */
     render () {
-        // this.#addBrowserIcon();
-
         this.container.innerHTML = "";
 
         // Build Navigation Panel

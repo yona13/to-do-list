@@ -1,31 +1,25 @@
 export default class ProjectManager {
-    constructor (popup) {
+    constructor (popup, todos) {
         this.popup = popup;
+        this.todos = todos;
+
+        // Build Sidebar DOM Element
+        this.sidebar = document.createElement("div");
+        this.sidebar.classList.add("sidebar");
+
+        // Build New-Project Popup DOM Element
+        this.newProject = document.createElement("div");
+        this.newProject.classList.add("project-popup");
+
         if (localStorage.getItem("projects")) {
             this.projects = JSON.parse(localStorage.getItem("projects") || "[]");
-        }
-        else
+        } else
             this.projects = [];
     }
 
     get projects () { return this._projects; }
 
     set projects (arr) { this._projects = arr; }
-
-    get selection () { return this._selection; }
-
-    set selection (project) { 
-        let mainProject = true;
-        this._projects.forEach(p => {
-            if (p.name === project) {
-                this._selection = p; 
-                selectionMade = false;
-            }
-        });
-
-        if (mainProject) 
-            this._selection = {name: "Projects", colour: ""};
-    }
 
     get sidebar () { return this._sidebar; }
 
@@ -34,6 +28,10 @@ export default class ProjectManager {
     get popup () { return this._popup; }
 
     set popup (obj) { this._popup = obj; }
+
+    get todos () { return this._todos; }
+
+    set todos (obj) { this._todos = obj; }
 
     get newProject () { return this._newProject; }
 
@@ -100,6 +98,7 @@ export default class ProjectManager {
         // Add Projects Title
         const projectsTitle = document.createElement("h1");
         projectsTitle.textContent = "Projects";
+        projectsTitle.addEventListener("click", (e) => { this.setDefault(); });
         this.sidebar.appendChild(projectsTitle);
 
         // Add List Element
@@ -107,7 +106,9 @@ export default class ProjectManager {
         this.projects.forEach(p => {
             if (p.name !== "") {
                 const projectListElement = document.createElement("li");
-                projectListElement.addEventListener("click", (e) => { /* TODO: this */ });
+                projectListElement.addEventListener("click", (e) => {
+                    this.todos.selection = p;
+                });
                 const colourCode = document.createElement("div");
                 colourCode.classList.add("project-colour-code");
                 colourCode.setAttribute("style", `background-color: ${p.colour}`);
@@ -161,14 +162,15 @@ export default class ProjectManager {
         this.sidebar.classList.remove("expand");
     }
 
+    setDefault () {
+        this.todos.selection = {
+            name: "Projects",
+            colour: ""
+        };
+    }
+
     setup () {
-        this.sidebar = document.createElement("div");
-        this.sidebar.classList.add("sidebar");
-
-        this.newProject = document.createElement("div");
-        this.newProject.classList.add("project-popup");
-
-
         this.#buildSidebar();
+        this.setDefault();
     }
 };

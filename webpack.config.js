@@ -11,6 +11,7 @@ module.exports = {
         layout: "./src/js/layout.js",
         popupManager: "./src/js/popup-manager.js",
         projectManager: "./src/js/project-manager.js",
+        toDoList: "./src/js/to-do-list.js",
     }, 
     mode: "development", 
     module: {
