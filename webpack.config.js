@@ -9,6 +9,8 @@ module.exports = {
     entry: {
         index: "./src/js/index.js",
         layout: "./src/js/layout.js",
+        popupManager: "./src/js/popup-manager.js",
+        projectManager: "./src/js/project-manager.js",
     }, 
     mode: "development", 
     module: {
@@ -16,6 +18,10 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: ["style-loader", "css-loader"],
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: "asset/resource",
             },
         ],
     },
@@ -29,7 +35,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: "#TODO:"
+            title: "TODO",
+            favicon: "./src/images/favicon.png",
         }),
     ],
 };

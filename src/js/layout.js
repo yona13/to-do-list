@@ -1,6 +1,11 @@
+import PopupManager from "./popup-manager.js";
+import ProjectManager from "./project-manager.js";
+
 export default class Layout {
     #searching = false;
     #expanded = false;
+    #popupManager = new PopupManager();
+    #projectManager = new ProjectManager(this.#popupManager);
 
     constructor () {
         this.container = document.createElement("div");
@@ -9,14 +14,15 @@ export default class Layout {
             if (this.#searching) {
                 this.#searching = false;
                 this.searchbar.classList.remove("find");
-                this.tasksearch.classList.remove("active");
+                this.tasksearch.classList.remove("searching");
             } else if (this.searchbar.classList.contains("find"))
                 this.#searching = true;
 
             if (this.#expanded) {
                 this.#expanded = false;
                 this.barcontainer.classList.remove("change");
-                this.sidebar.classList.remove("expand");
+                this.#projectManager.collapse();
+                // this.sidebar.classList.remove("expand");
             } else if (this.barcontainer.classList.contains("change"))
                 this.#expanded = true;
         });
@@ -52,17 +58,16 @@ export default class Layout {
 
     set content (elem) { this._content = elem; }
 
-    get sidebar () { return this._sidebar; }
+    // get sidebar () { return this._sidebar; }
 
-    set sidebar (elem) { this._sidebar = elem; }
+    // set sidebar (elem) { this._sidebar = elem; }
 
-    get popup () { return this._popup; }
-
-    set popup (elem) { this._popup = elem; }
-
-    get overlay () { return this._overlay; }
-
-    set overlay (elem) { this._overlay = elem; }
+    #addBrowserIcon () {
+        const iconLink = document.createElement("link");
+        iconLink.rel = "todo-icon";
+        iconLink.href = TodoIcon;
+        document.head.appendChild(iconLink);
+    }
 
     #getMagnifyingGlass () {
         const fontAwesomeScript = document.createElement("script");
@@ -116,7 +121,8 @@ export default class Layout {
         this.barcontainer.classList.add("sidebar-button");
         this.barcontainer.addEventListener("click", (e) => {
             this.barcontainer.classList.toggle("change");
-            this.sidebar.classList.toggle("expand");
+            this.#projectManager.expand();
+            // this.sidebar.classList.toggle("expand");
         });
 
         for (var i = 1; i < 3; i++) {
@@ -147,26 +153,6 @@ export default class Layout {
         this.main.appendChild(this.content);
     }
 
-    #buildSidebar () {
-        this.sidebar = document.createElement("div");
-        this.sidebar.classList.add("sidebar");
-
-        // Add Projects Title
-        const projectsTitle = document.createElement("h1");
-        projectsTitle.textContent = "Projects";
-        this.sidebar.appendChild(projectsTitle);
-
-        // Add List Element
-        const projectsList = document.createElement("ul");
-        const addProjectButton = document.createElement("button");
-        addProjectButton.classList.add("add-project-button");
-        addProjectButton.textContent = "+ Project";
-        this.sidebar.appendChild(projectsList);
-        this.sidebar.appendChild(addProjectButton);
-
-        this.main.appendChild(this.sidebar);
-    }
-
     #buildMainElement () {
         this.main = document.createElement("div");
         this.main.classList.add("main");
@@ -175,23 +161,16 @@ export default class Layout {
         this.#buildContent();
 
         // Add Sidebar to Main Div
-        this.#buildSidebar();
+        this.#projectManager.setup();
+        this.main.appendChild(this.#projectManager.sidebar);
 
         // Add to Container
         this.container.appendChild(this.main);
     }
 
-    #buildPopup () {
-        this.overlay = document.createElement("div");
-        this.overlay.classList.add("overlay");
-        document.body.appendChild(this.overlay);
-
-        this.popup = document.createElement("div");
-        this.popup.classList.add("popup");
-        document.body.appendChild(this.popup);
-    }
-
     render () {
+        // this.#addBrowserIcon();
+
         this.container.innerHTML = "";
 
         // Build Navigation Panel
@@ -201,6 +180,6 @@ export default class Layout {
         this.#buildMainElement();
 
         // Build Pop-up Element
-        this.#buildPopup();
+        this.#popupManager.setup();
     }
 };
