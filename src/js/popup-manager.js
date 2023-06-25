@@ -52,6 +52,10 @@ export default class PopupManager {
         this.popupcontent.classList.add("popup-content");
         this.popup.appendChild(this.popupcontent);
 
+        this.popup.addEventListener("keydown", (e) => {
+            console.log(e);
+        });
+
         document.body.appendChild(this.popup);
     }
 }

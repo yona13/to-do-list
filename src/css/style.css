@@ -120,6 +120,23 @@ h1 {
     width: 75vw;
 }
 
+.content-title {
+    margin: 2rem;
+}
+
+.content-list {
+    margin: 1rem 2rem;
+}
+
+.add-to-do {
+    margin: 1rem 2rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    color: var(--ivory);
+    background-color: var(--blue-gray);
+}
+
 .sidebar {
     position: relative;
     order: 1;
@@ -132,22 +149,57 @@ h1 {
     margin-left: 1rem;
 }
 
+.projects-title {
+    border: none;
+    background: none;
+    font-size: 2rem;
+    color: var(--ivory);
+}
+
 ul {
     list-style-type: none;
     padding: 0;
 }
 
-ul > li {
+.project-list-select {
     display: flex;
     gap: 0.5rem;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: default;
+    color: var(--ivory);
+}
+
+.project-cross-button {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--poppy);
+    position: relative;
+    padding: 0;
+    top: -0.1rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.add-to-do:hover,
+.projects-title:hover,
+.project-list-select:hover,
+.add-project:hover,
+.project-submit:hover {
+    font-weight: bold;
+}
+
+.project-list-select:hover .project-cross-button {
+    display: block;
 }
 
 .project-colour-code {
-    width: 0.2rem;
+    width: 0.4rem;
     height: 1rem;
 }
 
-.add-project-button {
+.add-project {
     background: none;
     border: none;
     color: inherit;
@@ -169,7 +221,7 @@ ul > li {
     left: 50%;
     height: 50vh;
     width: 25vw;
-    background-color: var(--blue-gray);
+    background-color: var(--ivory);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -193,7 +245,7 @@ ul > li {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    color: var(--ivory);
+    color: var(--gray);
 }
 
 .project-popup > input {
@@ -204,12 +256,14 @@ ul > li {
 }
 
 .project-popup > input[type="text"] {
-    border-bottom: 1px solid var(--ivory);
+    border-bottom: 1px solid var(--gray);
 }
 
 .project-submit {
     border: none;
-    background-color: var(--violet);
+    border-radius: 0.5rem;
+    background-color: var(--gray);
+    padding: 0.5rem;
     color: var(--ivory);
 }
 

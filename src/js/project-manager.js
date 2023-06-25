@@ -11,10 +11,12 @@ export default class ProjectManager {
         this.newProject = document.createElement("div");
         this.newProject.classList.add("project-popup");
 
-        if (localStorage.getItem("projects")) {
+        if (localStorage.getItem("projects"))
             this.projects = JSON.parse(localStorage.getItem("projects") || "[]");
-        } else
+        else
             this.projects = [];
+        this.todos.projects = this.projects;
+
     }
 
     get projects () { return this._projects; }
@@ -96,31 +98,43 @@ export default class ProjectManager {
 
     #buildSidebar () {
         // Add Projects Title
-        const projectsTitle = document.createElement("h1");
+        const projectsTitle = document.createElement("button");
+        projectsTitle.classList.add("projects-title");
         projectsTitle.textContent = "Projects";
         projectsTitle.addEventListener("click", (e) => { this.setDefault(); });
         this.sidebar.appendChild(projectsTitle);
 
         // Add List Element
         const projectsList = document.createElement("ul");
+        projectsList.classList.add("projects-list");
         this.projects.forEach(p => {
             if (p.name !== "") {
-                const projectListElement = document.createElement("li");
-                projectListElement.addEventListener("click", (e) => {
-                    this.todos.selection = p;
-                });
+                const projectListElement = document.createElement("div");
+                projectListElement.classList.add("project-list-select")
+                projectListElement.addEventListener("click", (e) => { this.todos.selection = p });
+
                 const colourCode = document.createElement("div");
                 colourCode.classList.add("project-colour-code");
                 colourCode.setAttribute("style", `background-color: ${p.colour}`);
                 const projectTitle = document.createElement("div");
                 projectTitle.textContent = p.name;
+
+                const projectDelButton = document.createElement("button");
+                projectDelButton.classList.add("project-cross-button");
+                projectDelButton.textContent = "x";
+                projectDelButton.addEventListener("click", (e) => { 
+                    this.delete(p.name);
+                    e.stopPropagation();
+                });
+
                 projectListElement.appendChild(colourCode);
                 projectListElement.appendChild(projectTitle);
+                projectListElement.appendChild(projectDelButton);
                 projectsList.appendChild(projectListElement);
             }
         });
         const addProjectButton = document.createElement("button");
-        addProjectButton.classList.add("add-project-button");
+        addProjectButton.classList.add("add-project");
         addProjectButton.textContent = "+ Project";
         addProjectButton.addEventListener("click", (e) => {
             this.#buildPopup();
@@ -142,6 +156,13 @@ export default class ProjectManager {
         const projectIndex = this.#getProjectIndex(name);
         if (projectIndex !== -1)
             this.projects.splice(projectIndex, 1);
+        this.save();
+
+        if (this.todos.selection.name === name)
+            this.setDefault();
+        
+        this.sidebar.innerHTML = "";
+        this.#buildSidebar();
     }
 
     save () { localStorage.setItem("projects", JSON.stringify(this.projects)); }
