@@ -9,9 +9,10 @@ module.exports = {
     entry: {
         index: "./src/js/index.js",
         layout: "./src/js/layout.js",
-        popupManager: "./src/js/popup-manager.js",
-        projectManager: "./src/js/project-manager.js",
+        popupManager: "./src/js/popup.js",
+        projectManager: "./src/js/projects.js",
         toDoList: "./src/js/to-do-list.js",
+        customSelect: "./src/js/custom-select.js",
     }, 
     mode: "development", 
     module: {

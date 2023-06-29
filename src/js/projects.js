@@ -1,4 +1,4 @@
-export default class ProjectManager {
+export default class Projects {
     constructor (popup, todos) {
         this.popup = popup;
         this.todos = todos;

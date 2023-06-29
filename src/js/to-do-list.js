@@ -1,3 +1,5 @@
+import CustomSelect from "./custom-select.js";
+
 export default class ToDoList {
     constructor (popup) {
         this.popup = popup;
@@ -42,11 +44,30 @@ export default class ToDoList {
     #buildPopup () {
         this.newTodo.innerHTML = "";
 
-        // Create List of Project Options
+        // Input for Project Options
         const projectSelectLabel = document.createElement("label");
         projectSelectLabel.for = "project-select";
-        projectSelectLabel.textContent = "Choose a Project";
-        // TODO: Continue
+        projectSelectLabel.textContent = "Project";
+        const options = [];
+        this.projects.forEach(p => { options.push(p.name); });
+        const projectSelect = new CustomSelect(options, this.popup.popup);
+        projectSelect.id = "project-select";
+
+        // Input for Due Date, if available
+        const dueDateLabel = document.createElement("label");
+        dueDateLabel.for = "due-date";
+        dueDateLabel.textContent = "Due Date";
+        const dueDate = document.createElement("input");
+        dueDate.id = "due-date";
+        dueDate.type = "date";
+        dueDate.classList.add("due-date");
+        dueDate.min = new Date().toISOString().split("T")[0];
+        console.log(dueDate.min);
+
+        this.newTodo.appendChild(projectSelectLabel);
+        this.newTodo.appendChild(projectSelect.select);
+        this.newTodo.appendChild(dueDateLabel);
+        this.newTodo.appendChild(dueDate);
     }
 
     #buildContent () {

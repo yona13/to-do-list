@@ -1,14 +1,14 @@
-import PopupManager from "./popup-manager.js";
-import ProjectManager from "./project-manager.js";
-import ToDoList from "./to-do-list.js";
+import Popup from "./popup.js";
+import Projects from "./projects.js";
+import todos from "./to-do-list.js";
 
 export default class Layout {
     /** Private Variables in Layout */
     #searching = false;
     #expanded = false;
-    #popupManager = new PopupManager();
-    #toDoList = new ToDoList(this.#popupManager);
-    #projectManager = new ProjectManager(this.#popupManager, this.#toDoList);
+    #popup = new Popup();
+    #todos = new todos(this.#popup);
+    #projects = new Projects(this.#popup, this.#todos);
 
     /**
      * Layout Class
@@ -43,7 +43,7 @@ export default class Layout {
             if (this.#expanded) {
                 this.#expanded = false;
                 this.barcontainer.classList.remove("change");
-                this.#projectManager.collapse();
+                this.#projects.collapse();
             }
             
             // Otherwise, enable Sidebar
@@ -211,7 +211,7 @@ export default class Layout {
         this.barcontainer.classList.add("sidebar-button");
         this.barcontainer.addEventListener("click", (e) => {
             this.barcontainer.classList.toggle("change");
-            this.#projectManager.expand();
+            this.#projects.expand();
         });
 
         // Create 2-Bars for Sidebar Enabling Element
@@ -242,12 +242,12 @@ export default class Layout {
      */
     #buildMainElement () {
         // Add Sidebar to Main Element
-        this.#projectManager.setup();
-        this.main.appendChild(this.#projectManager.sidebar);
+        this.#projects.setup();
+        this.main.appendChild(this.#projects.sidebar);
  
         // Add Content to Main Element
-        this.#toDoList.setup();
-        this.main.appendChild(this.#toDoList.content);
+        this.#todos.setup();
+        this.main.appendChild(this.#todos.content);
 
         // Add Main Element to Container Element
         this.container.appendChild(this.main);
@@ -268,6 +268,6 @@ export default class Layout {
         this.#buildMainElement();
 
         // Build Pop-up Element
-        this.#popupManager.setup();
+        this.#popup.setup();
     }
 };

@@ -3,7 +3,7 @@ const WINDOW_TYPES = {
     TODO: 1
 };
 
-export default class PopupManager {
+export default class Popup {
     constructor () {}
 
     get popup () { return this._popup; }

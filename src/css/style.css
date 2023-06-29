@@ -5,7 +5,7 @@
     --gray: #323031;
     --violet: #57467b;
     --blue-gray: #7cb4b8;
-    --aquamarine: #70f8ba;
+    --aquamarine: #00f8ba;
     --mint-green: #d1e3dd;
     --lime: #cafe48;
     --teal: #177e89;
@@ -159,6 +159,7 @@ h1 {
 ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .project-list-select {
@@ -240,7 +241,8 @@ ul {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-.project-popup {
+.project-popup,
+.todo-popup {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -248,15 +250,91 @@ ul {
     color: var(--gray);
 }
 
-.project-popup > input {
+.todo-popup {
+    position: relative;
+}
+
+.project-popup > input,
+.todo-popup > input {
     background: none;
     border: none;
     outline: none;
     color: inherit;
 }
 
+.dropdown {
+    height: 3rem;
+    width: 12rem;
+    background: none;
+    position: absolute;
+    z-index: 9;
+}
+
+.dropdown::before {
+    content: "";
+    position: absolute;
+    right: 0.25rem;
+    top: 0.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border: 2px solid var(--teal);
+    border-top: transparent;
+    border-right: transparent;
+    transform: rotate(-45deg);
+    pointer-events: none;
+    transition: all 0.3s linear;
+}
+
+.dropdown input {
+    width: 100%;
+    height: 1rem;
+    border-radius: 1rem;
+    background: var(--mint-green);
+    border: 1px solid var(--teal);
+    outline: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+.dropdown .options {
+    width: 80%;
+    cursor: pointer;
+    border-radius: 1rem;
+    border: none;
+    outline: none;
+    background-color: var(--blue-gray);
+    padding: 1rem;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+}
+
+.dropdown .options .option {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown .options .option:hover {
+    color: var(--ivory);
+    background-color: var(--aquamarine);
+}
+
+.dropdown.open .options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown.open::before {
+    transform: rotate(-225deg);
+    top: 0.5rem;
+}
+
 .project-popup > input[type="text"] {
     border-bottom: 1px solid var(--gray);
+    width: 75%;
 }
 
 .project-submit {
