@@ -1,17 +1,13 @@
 export default class CustomSelect {
-    constructor (arr, popup) {
+    constructor (arr) {
         this.select = document.createElement("div");
         this.select.classList.add("dropdown");
-        this.#build(arr, popup);
+        this.#build(arr);
 
         // Add Event Listeners
         this.select.addEventListener("click", (e) => {
             e.stopPropagation();
             this.select.classList.toggle("open");
-        });
-        popup.addEventListener("click", (e) => {
-            if (this.select.classList.contains("open"))
-                this.select.classList.remove("open");
         });
     }
 
@@ -27,12 +23,11 @@ export default class CustomSelect {
 
     set id (identifier) { this._select.id = identifier; } 
 
-    toggle (event) {
-        event.stopPropagation();
-        this.select.classList.toggle("open");
+    close () {
+        this.select.classList.remove("open");
     }
 
-    #build (arr, popup) {
+    #build (arr) {
         // Create Placeholder Input
         this.placeHolder = document.createElement("input");
         this.placeHolder.type = "text";

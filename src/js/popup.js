@@ -1,61 +1,46 @@
-const WINDOW_TYPES = {
-    PROJECT: 0,
-    TODO: 1
-};
+import DOMElement from "./dom-element.js";
 
-export default class Popup {
-    constructor () {}
+export default class Popup extends DOMElement {
+    constructor () {
+        super("popup");
 
-    get popup () { return this._popup; }
-
-    set popup (elem) { this._popup = elem; }
-
-    get popupcontent () { return this._popupcontent; }
-
-    set popupcontent (elem) { this._popupcontent = elem; }
+        // Add Overlay Element
+        this.overlay = document.createElement("div");
+        this.overlay.classList.add("overlay");
+        this.overlay.addEventListener("click", (e) => { this.exit(); });
+    }
 
     get overlay () { return this._overlay; }
 
     set overlay (elem) { this._overlay = elem; }
 
     enter (elem) {
+        this.container.classList.add("active");
         this.overlay.classList.add("active");
-        this.popup.classList.add("active");
-
-        this.popupcontent.innerHTML = "";
-        this.popupcontent.appendChild(elem);
+        this.#render(elem);
     }
 
     exit () {
+        this.container.classList.remove("active");
         this.overlay.classList.remove("active");
-        this.popup.classList.remove("active");
     }
 
-    setup () {
-        this.overlay = document.createElement("div");
-        this.overlay.classList.add("overlay");
-        this.overlay.addEventListener("click", (e) => { this.exit(); });
-        document.body.appendChild(this.overlay);
+    #render (content) {
+        this.container.innerHTML = "";
 
-        this.popup = document.createElement("div");
-        this.popup.classList.add("popup");
+        // Add Exit Button
+        const exit = document.createElement("button");
+        exit.textContent = "x";
+        exit.classList.add("exit-popup");
+        exit.addEventListener("click", (e) => { this.exit(); });
 
-        // Add exit button
-        const exitButton = document.createElement("button");
-        exitButton.textContent = "x";
-        exitButton.classList.add("exit-popup");
-        exitButton.addEventListener("click", (e) => { this.exit(); });
-        this.popup.appendChild(exitButton);
-
-        // Add popup content container
-        this.popupcontent = document.createElement("div");
-        this.popupcontent.classList.add("popup-content");
-        this.popup.appendChild(this.popupcontent);
-
-        this.popup.addEventListener("keydown", (e) => {
-            console.log(e);
+        document.addEventListener("keydown", (e) => {
+            if (this.container.classList.contains("active") && e.key === "Escape")
+                this.exit();
         });
-
-        document.body.appendChild(this.popup);
+        
+        // Append Elements to Popup Container
+        this.container.appendChild(exit);
+        this.container.appendChild(content);
     }
-}
+};

@@ -23,6 +23,10 @@ h1 {
     font-weight: inherit;
 }
 
+button {
+    outline: none;
+}
+
 .container {
     width: 100vw;
     height: 100vh;
@@ -263,11 +267,10 @@ ul {
 }
 
 .dropdown {
-    height: 3rem;
+    position: relative;
+    height: 1rem;
     width: 12rem;
     background: none;
-    position: absolute;
-    z-index: 9;
 }
 
 .dropdown::before {
@@ -332,7 +335,8 @@ ul {
     top: 0.5rem;
 }
 
-.project-popup > input[type="text"] {
+.project-popup > input[type="text"],
+.todo-popup > input[type="text"] {
     border-bottom: 1px solid var(--gray);
     width: 75%;
 }

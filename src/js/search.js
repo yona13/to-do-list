@@ -1,9 +1,10 @@
-export default class Search {
+import DOMElement from "./dom-element.js";
+
+export default class Search extends DOMElement {
     #searching = false;
 
     constructor () {
-        this.container = document.createElement("div");
-        this.container.classList.add("search-block");
+        super("search-block");
         
         const glass = document.createElement("i");
         glass.classList.add("fa-solid");
@@ -30,13 +31,17 @@ export default class Search {
             }
         });
 
+        document.addEventListener("keydown", (e) => {
+            if (this.container.classList.contains("find") && e.key === "Escape") {
+                this.#searching = true;
+                this.toggle();
+                this.searchbar.value = "";
+            }
+        });
+
         this.container.appendChild(glass);
         this.container.appendChild(this.searchbar);
     }
-
-    get container () { return this._container; }
-
-    set container (elem) { this._container = elem; }
 
     get searchbar () { return this._searchbar; }
 

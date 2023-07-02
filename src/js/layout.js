@@ -1,23 +1,24 @@
+import Content from "./content.js";
 import Data from "./data.js";
+import DOMElement from "./dom-element.js";
 import Menu from "./menu.js";
 import Navigator from "./navigator.js";
+import Popup from "./popup.js";
 import Search from "./search.js";
 
-export default class Layout {
+export default class Layout extends DOMElement{
     constructor () {
+        super("container");
         this.#addFontAwesome();
 
-        // Generate Container for all DOM Elements
-        this.container = document.createElement("div");
-        this.container.classList.add("container");
-
-        // Generate Main Element
         this.main = document.createElement("div");
         this.main.classList.add("main");
 
         this.data = new Data();
-        this.menu = new Menu(this.data);
         this.search = new Search();
+        this.popup = new Popup();
+        this.content = new Content(this.data, this.popup);
+        this.menu = new Menu(this.data, this.content, this.popup);
         this.nav = new Navigator(this.search, this.menu);
 
         this.container.addEventListener("click", (e) => {
@@ -28,37 +29,9 @@ export default class Layout {
         document.body.appendChild(this.container);
     }
 
-    /**
-     * Get Container Element
-     * 
-     * @returns {Object} Container HTML Element
-     */
-    get container () { return this._container; }
-
-    /**
-     * Set Container Element
-     * 
-     * @param {Object} elem - HTML Element for the Container
-     */
-    set container (elem) { this._container = elem; }
-
     get nav () { return this._nav; }
 
     set nav (obj) { this._nav = obj; }
-
-    /**
-     * Get Main Element
-     * 
-     * @returns {Object} Main HTML Element
-     */
-    get main () { return this._main; }
-
-    /**
-     * Set Main Element
-     * 
-     * @param {Object} elem - HTML Element for Main Element
-     */
-    set main (elem) { this._main = elem; }
 
     #addFontAwesome () {
         // Add Font-Awesome Script to Head
@@ -78,6 +51,9 @@ export default class Layout {
 
         this.container.appendChild(this.nav.container);
         this.main.appendChild(this.menu.container);
-        this.container.appendChild(this.main);
+        this.main.appendChild(this.content.container);
+        this.container.append(this.main);
+        document.body.append(this.popup.overlay);
+        document.body.append(this.popup.container);
     }
 };

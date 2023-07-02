@@ -9,10 +9,12 @@ module.exports = {
     entry: {
         customSelect: "./src/js/custom-select.js",
         data: "./src/js/data.js",
+        domElement: "./src/js/dom-element.js",
         index: "./src/js/index.js",
         layout: "./src/js/layout.js",
         menu: "./src/js/menu.js",
         navigator: "./src/js/navigator.js",
+        popup: "./src/js/popup.js",
         search: "./src/js/search.js",
     }, 
     mode: "development", 
