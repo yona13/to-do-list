@@ -45,12 +45,12 @@ h1 {
     margin-left: 1rem;
 }
 
-.nav-toolbox {
+.toolbar {
     display: flex;
     flex-direction: row;
 }
 
-.searchbar {
+.search-block {
     font-size: 2rem;
     padding: 0.6rem;
     margin-right: 1rem;
@@ -59,7 +59,7 @@ h1 {
     transition: 0.4s width ease-in-out;
 }
 
-.searchbar:hover {
+.search-block:hover {
     background-color: var(--violet);
 }
 
@@ -68,7 +68,7 @@ h1 {
     background-color: var(--violet);
 }
 
-.task-search {
+.searchbar {
     width: 0;
     background: none;
     outline: none;
@@ -354,7 +354,7 @@ ul {
         font-size: 2rem;
     }
 
-    .searchbar {
+    .search-block {
         font-size: 1.5rem;
         padding: 1rem;
         width: 1.8rem;

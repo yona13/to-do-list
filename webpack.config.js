@@ -7,12 +7,13 @@ module.exports = {
     },
     devtool: "inline-source-map",
     entry: {
+        customSelect: "./src/js/custom-select.js",
+        data: "./src/js/data.js",
         index: "./src/js/index.js",
         layout: "./src/js/layout.js",
-        popupManager: "./src/js/popup.js",
-        projectManager: "./src/js/projects.js",
-        toDoList: "./src/js/to-do-list.js",
-        customSelect: "./src/js/custom-select.js",
+        menu: "./src/js/menu.js",
+        navigator: "./src/js/navigator.js",
+        search: "./src/js/search.js",
     }, 
     mode: "development", 
     module: {
