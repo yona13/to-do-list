@@ -282,6 +282,28 @@ ul {
     outline: none;
 }
 
+.todo-enabler-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+}
+
+.checkbox {
+    margin-bottom: var(--standard-dimension);
+    appearance: none;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    border: 1px solid var(--teal);
+    transition: 0.3s border ease-in-out;
+}
+
+.checkbox.checked {
+    border: 6px solid var(--teal);
+}
+
 .dropdown {
     position: relative;
     height: 1rem;

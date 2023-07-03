@@ -27,6 +27,10 @@ export default class CustomSelect {
         this.select.classList.remove("open");
     }
 
+    set (enabled) {
+        // TODO: Enable/Disable Custom Selection
+    }
+
     #build (arr) {
         // Create Placeholder Input
         this.placeHolder = document.createElement("input");

@@ -1,3 +1,4 @@
+import Checkbox from "./checkbox.js";
 import CustomSelect from "./custom-select.js";
 import Data from "./data.js";
 import DOMElement from "./dom-element.js";
@@ -64,6 +65,14 @@ export default class Content extends DOMElement {
             projectSelect.close();
         });
 
+        // Add Enabler for Project Selection
+        const projectContainer = document.createElement("div");
+        projectContainer.classList.add("todo-enabler-container");
+        const projectEnable = new Checkbox("project-enable");
+        projectContainer.appendChild(projectLabel);
+        projectContainer.appendChild(projectEnable.checkbox);
+        // TODO: Enable/Disable Custom Select for Project
+
         // Add Input with Label for New-To-Do Due-Date
         const dueDateLabel = document.createElement("label");
         dueDateLabel.for = "due-date";
@@ -73,15 +82,26 @@ export default class Content extends DOMElement {
         dueDate.id = "due-date";
         dueDate.min = new Date().toISOString().split("T")[0];
 
+        // Add Enabler for Due Date Selection
+        const dueDateContainer = document.createElement("div");
+        dueDateContainer.classList.add("todo-enabler-container");
+        const dueDateEnable = new Checkbox("due-date-enable");
+        dueDateContainer.appendChild(dueDateLabel);
+        dueDateContainer.appendChild(dueDateEnable.checkbox);
+        // TODO: Enable/Disable Due-Date Selection
+
+        //TODO: ADd Submit Button for New-To-Do
+
         // Append Elements to New-To-Do
         newToDo.appendChild(titleLabel);
         newToDo.appendChild(titleInput);
         newToDo.appendChild(descLabel);
         newToDo.appendChild(description);
-        newToDo.appendChild(projectLabel);
+        newToDo.appendChild(projectContainer);
         newToDo.appendChild(projectSelect.select);
-        newToDo.appendChild(dueDateLabel);
+        newToDo.appendChild(dueDateContainer);
         newToDo.appendChild(dueDate);
+        // TODO: Append Submit Button
 
         // Enter Popup
         this.popup.enter(newToDo);
