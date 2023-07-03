@@ -46,7 +46,12 @@ export default class Content extends DOMElement {
         titleInput.type = "text";
         titleInput.id = "new-to-do-title";
 
-        // TODO: Add To-Do Description
+        // Add Input with Label fro New-To-Do Description
+        const descLabel = document.createElement("label");
+        descLabel.for = "new-to-do-description";
+        descLabel.textContent = "Description";
+        const description = document.createElement("textarea");
+        description.id = "new-to-do-description";
 
         // Add Input with Label for Project Selection
         const projectLabel = document.createElement("label");
@@ -71,7 +76,8 @@ export default class Content extends DOMElement {
         // Append Elements to New-To-Do
         newToDo.appendChild(titleLabel);
         newToDo.appendChild(titleInput);
-        // TODO: Append To-Do Description
+        newToDo.appendChild(descLabel);
+        newToDo.appendChild(description);
         newToDo.appendChild(projectLabel);
         newToDo.appendChild(projectSelect.select);
         newToDo.appendChild(dueDateLabel);

@@ -195,6 +195,11 @@ ul {
     font-weight: bold;
 }
 
+.add-to-do:hover,
+.project-submit:hover {
+    background-color: var(--teal);
+}
+
 .project-list-select:hover .project-cross-button {
     display: block;
 }
@@ -264,6 +269,17 @@ ul {
     border: none;
     outline: none;
     color: inherit;
+}
+
+.todo-popup > textarea {
+    resize: none;
+    background-color: inherit;
+    font-size: 0.75rem;
+}
+
+.todo-popup > textarea:focus {
+    border: 1px solid var(--teal);
+    outline: none;
 }
 
 .dropdown {
@@ -344,7 +360,7 @@ ul {
 .project-submit {
     border: none;
     border-radius: 0.5rem;
-    background-color: var(--gray);
+    background-color: var(--blue-gray);
     padding: 0.5rem;
     color: var(--ivory);
 }
