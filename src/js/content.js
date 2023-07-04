@@ -3,6 +3,8 @@ import CustomSelect from "./custom-select.js";
 import Data from "./data.js";
 import DOMElement from "./dom-element.js";
 import Popup from "./popup.js";
+import Priorities from "./priorities.js";
+import ToDoTable from "./to-do-table.js";
 
 export default class Content extends DOMElement {
     /**
@@ -34,6 +36,14 @@ export default class Content extends DOMElement {
         this.#render()
     }
 
+    #submit (name, priority, description, project, date) {
+        if (name === "")
+            return false;
+
+        this.data.addToDo(name, priority, description, project, date);
+        return true;
+    }
+
     #popup () {
         // Create New-To-Do Element for Popup
         const newToDo = document.createElement("div");
@@ -46,6 +56,9 @@ export default class Content extends DOMElement {
         const titleInput = document.createElement("input");
         titleInput.type = "text";
         titleInput.id = "new-to-do-title";
+
+        // Add Priority
+        const priorities = new Priorities();
 
         // Add Input with Label fro New-To-Do Description
         const descLabel = document.createElement("label");
@@ -71,7 +84,10 @@ export default class Content extends DOMElement {
         const projectEnable = new Checkbox("project-enable");
         projectContainer.appendChild(projectLabel);
         projectContainer.appendChild(projectEnable.checkbox);
-        // TODO: Enable/Disable Custom Select for Project
+        projectEnable.checkbox.addEventListener("click", (e) => {
+            projectEnable.checkbox.classList.toggle("checked");
+            projectSelect.set();
+        });
 
         // Add Input with Label for New-To-Do Due-Date
         const dueDateLabel = document.createElement("label");
@@ -88,20 +104,32 @@ export default class Content extends DOMElement {
         const dueDateEnable = new Checkbox("due-date-enable");
         dueDateContainer.appendChild(dueDateLabel);
         dueDateContainer.appendChild(dueDateEnable.checkbox);
-        // TODO: Enable/Disable Due-Date Selection
+        dueDateEnable.checkbox.addEventListener("click", (e) => {
+            dueDateEnable.checkbox.classList.toggle("checked");
+            dueDate.disabled = !dueDateEnable.checkbox.classList.contains("checked");
+        });
 
-        //TODO: ADd Submit Button for New-To-Do
+        // Add Submit Button for New-To-Do
+        const submit = document.createElement("button");
+        submit.classList.add("popup-submit");
+        submit.textContent = "Submit";
+        submit.addEventListener("click", (e) => {
+            if (this.#submit(titleInput.value, priorities.priority, description.value, projectSelect.value, dueDate.value))
+                this.#render();
+            this.popup.exit();
+        });
 
         // Append Elements to New-To-Do
         newToDo.appendChild(titleLabel);
         newToDo.appendChild(titleInput);
+        newToDo.appendChild(priorities.container);
         newToDo.appendChild(descLabel);
         newToDo.appendChild(description);
         newToDo.appendChild(projectContainer);
         newToDo.appendChild(projectSelect.select);
         newToDo.appendChild(dueDateContainer);
         newToDo.appendChild(dueDate);
-        // TODO: Append Submit Button
+        newToDo.appendChild(submit);
 
         // Enter Popup
         this.popup.enter(newToDo);
@@ -117,7 +145,8 @@ export default class Content extends DOMElement {
         contentTitle.classList.add("content-title");
         contentTitle.textContent = this.title;
 
-        // TODO: Add To-Do Table
+        // Add To-Do Table
+        const todos = new ToDoTable(this.data.todos);
 
         // Add Create To-Do Button
         const create  = document.createElement("button");
@@ -128,7 +157,7 @@ export default class Content extends DOMElement {
         });
 
         this.container.appendChild(contentTitle);
-        // TODO: Append To-Do Child to Container
+        this.container.appendChild(todos.table);
         this.container.appendChild(create);
     }
 };

@@ -7,6 +7,8 @@ module.exports = {
     },
     devtool: "inline-source-map",
     entry: {
+        checkbox: "./src/js/checkbox.js",
+        content: "./src/js/content.js",
         customSelect: "./src/js/custom-select.js",
         data: "./src/js/data.js",
         domElement: "./src/js/dom-element.js",
@@ -15,7 +17,9 @@ module.exports = {
         menu: "./src/js/menu.js",
         navigator: "./src/js/navigator.js",
         popup: "./src/js/popup.js",
+        priorities: "./src/js/priorities.js",
         search: "./src/js/search.js",
+        toDoTable: "./src/js/to-do-table.js",
     }, 
     mode: "development", 
     module: {

@@ -9,6 +9,8 @@ export default class Data {
             this.todos = JSON.parse(localStorage.getItem("todos") || "[]");
         else
             this.todos = [];
+
+        console.log(this.todos);
     }
 
     get projects () { return this._projects; }
@@ -40,6 +42,35 @@ export default class Data {
         if (index !== -1) {
             this.projects.splice(index, 1);
             this.save("projects");
+        }
+    }
+
+    #indexOfToDo (name) {
+        let index = -1;
+        for (var i = 0; i < this.todos.length; i++) 
+            if (this.todos[i].name === name)
+                index = i;
+        
+        return index;
+    }
+
+    addToDo (name, priority, description, project, date) {
+        if (this.#indexOfToDo(name) === -1) {
+            // Get Project dictionary, if available
+            const pIndex = this.#indexOfProject(project);
+            const pDict = {name: project, colour: ""};
+            if (pIndex !== -1)
+                pDict.colour = this.projects[pIndex].colour;
+            this.todos.push({name: name, priority: priority, description: description, project: pDict, date: date});
+            this.save("todos");
+        }
+    }
+
+    deleteToDo (name) {
+        const index = this.#indexOfToDo(name);
+        if (index !== -1) {
+            this.todos.splice(index, 1);
+            this.save("todos");
         }
     }
 

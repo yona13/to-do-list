@@ -102,14 +102,12 @@ export default class Menu extends DOMElement {
 
         // Add Submit Button for New-Project
         const submit = document.createElement("button");
-        submit.classList.add("project-submit");
+        submit.classList.add("popup-submit");
         submit.textContent = "Submit";
         submit.addEventListener("click", (e) => {
-            if (this.#submit(titleInput.value, colourInput.value)) {
-                this.popup.exit();
+            if (this.#submit(titleInput.value, colourInput.value))
                 this.#render();
-            } else
-                window.alert("Please enter a project title!");
+            this.popup.exit();
         });
 
         newProject.addEventListener("keypress", (e) => {

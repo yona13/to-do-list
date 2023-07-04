@@ -1,13 +1,17 @@
 export default class CustomSelect {
+    #enabled = true;
+
     constructor (arr) {
         this.select = document.createElement("div");
         this.select.classList.add("dropdown");
+        this.value = "";
         this.#build(arr);
 
         // Add Event Listeners
         this.select.addEventListener("click", (e) => {
             e.stopPropagation();
-            this.select.classList.toggle("open");
+            if (this.#enabled)
+                this.select.classList.toggle("open");
         });
     }
 
@@ -19,6 +23,10 @@ export default class CustomSelect {
 
     set placeHolder (elem) { this._placeHolder = elem; }
 
+    get value () { return this._value; }
+
+    set value (value) { this._value = value;}
+
     get id () { return this._select.id; }
 
     set id (identifier) { this._select.id = identifier; } 
@@ -27,8 +35,9 @@ export default class CustomSelect {
         this.select.classList.remove("open");
     }
 
-    set (enabled) {
-        // TODO: Enable/Disable Custom Selection
+    set () {
+        this.#enabled = !this.#enabled;
+        this.select.classList.toggle("disable");
     }
 
     #build (arr) {
@@ -46,7 +55,8 @@ export default class CustomSelect {
             option.classList.add("option");
             option.textContent = o;
             option.addEventListener("click", (e) => {
-                this.placeHolder.value = e.currentTarget.textContent;
+                this.value = e.currentTarget.textContent;
+                this.placeHolder.value = this.value;
             });
             options.appendChild(option);
         });
