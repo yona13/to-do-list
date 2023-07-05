@@ -128,13 +128,40 @@ button {
     width: 75vw;
 }
 
-.content-title {
+.to-do-table {
+    width: 50vw;
+}
+
+td {
+    text-align: center;
+    background-color: var(--blue-gray);
+    color: var(--ivory);
+}
+
+.date-header {}
+
+.date-header::before {
+    content: "";
+    position: absolute;
+    left: 70vw;
+    top: 0.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border: 2px solid var(--teal);
+    border-top: transparent;
+    border-right: transparent;
+    transform: rotate(-45deg);
+    pointer-events: none;
+    transition: all 0.3s linear;
+}
+
+/* .content-title {
     margin: 2rem;
 }
 
 .content-list {
     margin: 1rem 2rem;
-}
+} */
 
 .add-to-do {
     margin: 1rem 2rem;

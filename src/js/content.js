@@ -57,7 +57,9 @@ export default class Content extends DOMElement {
         titleInput.type = "text";
         titleInput.id = "new-to-do-title";
 
-        // Add Priority
+        // Add Priority Elements for New To-Do
+        const priorityTitle = document.createElement("label");
+        priorityTitle.textContent = "Priority";
         const priorities = new Priorities();
 
         // Add Input with Label fro New-To-Do Description
@@ -122,6 +124,7 @@ export default class Content extends DOMElement {
         // Append Elements to New-To-Do
         newToDo.appendChild(titleLabel);
         newToDo.appendChild(titleInput);
+        newToDo.appendChild(priorityTitle);
         newToDo.appendChild(priorities.container);
         newToDo.appendChild(descLabel);
         newToDo.appendChild(description);
@@ -141,12 +144,12 @@ export default class Content extends DOMElement {
         this.container.innerHTML = "";
 
         // Add Title to Content
-        const contentTitle = document.createElement("h1");
-        contentTitle.classList.add("content-title");
-        contentTitle.textContent = this.title;
+        // const contentTitle = document.createElement("h1");
+        // contentTitle.classList.add("content-title");
+        // contentTitle.textContent = this.title;
 
         // Add To-Do Table
-        const todos = new ToDoTable(this.data.todos);
+        const todos = new ToDoTable(this.title, this.data);
 
         // Add Create To-Do Button
         const create  = document.createElement("button");
@@ -156,7 +159,7 @@ export default class Content extends DOMElement {
             this.#popup();
         });
 
-        this.container.appendChild(contentTitle);
+        // this.container.appendChild(contentTitle);
         this.container.appendChild(todos.table);
         this.container.appendChild(create);
     }

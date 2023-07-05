@@ -61,7 +61,15 @@ export default class Data {
             const pDict = {name: project, colour: ""};
             if (pIndex !== -1)
                 pDict.colour = this.projects[pIndex].colour;
-            this.todos.push({name: name, priority: priority, description: description, project: pDict, date: date});
+            this.todos.push(
+                {
+                    name: name, 
+                    priority: priority, 
+                    description: description, 
+                    project: pDict, 
+                    date: date
+                }
+            );
             this.save("todos");
         }
     }

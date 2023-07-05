@@ -38,6 +38,7 @@ export default class Priorities {
     }
 
     #build () {
+        // Build the Container for the Buttons
         this.container = document.createElement("div");
         this.container.classList.add("priority-container");
         ["Low", "Medium", "High"].forEach(priority => {
