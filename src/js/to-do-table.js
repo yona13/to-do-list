@@ -28,6 +28,15 @@ export default class ToDoTable {
 
     set data (obj) { this._data = obj; }
 
+    #generateDateList () {
+        const list = [];
+        this.data.todos.forEach(todo => {
+            if (list.indexOf(todo.date) === -1)
+                list.push(todo.date);
+        });
+        console.log(list);
+    }
+
     #build () {
         // Add Header Element to To-Do Table
         const header = document.createElement("thead");
@@ -46,6 +55,7 @@ export default class ToDoTable {
 
         // Add Body Element to To-Do Table
         const body = document.createElement("tbody");
+        const dateList = this.#generateDateList();
 
         this.data.todos.forEach(todo => {
             // Add Row Element to Body

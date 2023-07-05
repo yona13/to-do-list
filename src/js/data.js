@@ -9,8 +9,6 @@ export default class Data {
             this.todos = JSON.parse(localStorage.getItem("todos") || "[]");
         else
             this.todos = [];
-
-        console.log(this.todos);
     }
 
     get projects () { return this._projects; }
@@ -67,7 +65,7 @@ export default class Data {
                     priority: priority, 
                     description: description, 
                     project: pDict, 
-                    date: date
+                    date: new Date(date)
                 }
             );
             this.save("todos");
