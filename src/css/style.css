@@ -51,6 +51,11 @@ button {
 .logo {
     font-size: 3rem;
     margin-left: 1rem;
+    cursor: default;
+}
+
+.logo:hover {
+    font-weight: bold;
 }
 
 .toolbar {
@@ -91,7 +96,7 @@ button {
 
 .sidebar-button {
     display: none;
-    cursor: pointer;
+    cursor: default;
     color: inherit;
     margin: 0.6rem;
     -webkit-tap-highlight-color: transparent;
@@ -182,13 +187,28 @@ td {
 
 .sidebar > * {
     margin-left: 1rem;
+    /* margin-top: 1rem; */
+    /* padding-left: 1rem; */
 }
 
-.projects-title {
-    border: none;
-    background: none;
-    font-size: 2rem;
-    color: var(--ivory);
+.menu-tag {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    cursor: default;
+}
+
+.menu-tag > i {
+    position: relative;
+    top: 0.125rem;
+    /* font-size: 1rem; */
+    cursor: default;
+}
+
+.menu-tag > div {
+    font-size: 1.2rem;
+    cursor: default;
 }
 
 ul {
@@ -197,7 +217,8 @@ ul {
     margin: 0;
 }
 
-.project-list-select {
+.project-item {
+    padding: 0.5rem 0;
     display: flex;
     gap: 0.5rem;
     align-items: center;
@@ -207,7 +228,7 @@ ul {
     color: var(--ivory);
 }
 
-.project-cross-button {
+.tag-delete {
     display: none;
     background: none;
     border: none;
@@ -218,9 +239,60 @@ ul {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+.new-project {
+    display: grid;
+    grid-template-areas: 
+        "colour name name name"
+        "confirm confirm cancel cancel";
+    gap: 0.5rem;
+    padding: 0.25rem;
+}
+
+.new-project-colour {
+    grid-area: colour;
+    background: none;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 1rem;
+}
+
+.new-project-name {
+    grid-area: name;
+    width: 75%;
+    background-color: var(--ivory);
+    border: none;
+    border-radius: 0.25rem;
+    outline: none;
+}
+
+.new-project-confirm,
+.new-project-cancel {
+    border: none;
+    border-radius: 0.25rem;
+}
+
+.new-project-confirm {
+    grid-area: confirm;
+    background-color: var(--lime);
+}
+
+.new-project-confirm:hover {
+    background-color: var(--lime-heavy);
+}
+
+.new-project-cancel {
+    grid-area: cancel;
+    background-color: var(--poppy);
+}
+
+.new-project-cancel:hover {
+    background-color: var(--poppy-heavy);
+}
+
 .add-to-do:hover,
-.projects-title:hover,
-.project-list-select:hover,
+.menu-tag:hover,
+.project-item:hover,
 .add-project:hover,
 .popup-submit:hover {
     font-weight: bold;
@@ -231,13 +303,15 @@ ul {
     background-color: var(--teal);
 }
 
-.project-list-select:hover .project-cross-button {
+.project-item:hover .tag-delete {
     display: block;
 }
 
-.project-colour-code {
-    width: 0.4rem;
+.tag-colour {
+    font-size: 1.2rem;
+    /* width: 0.4rem;
     height: 1rem;
+     */
 }
 
 .add-project {
@@ -401,12 +475,12 @@ ul {
     border: 1px solid var(--teal);
     outline: none;
     user-select: none;
-    cursor: pointer;
+    cursor: default;
 }
 
 .dropdown .options {
     width: 80%;
-    cursor: pointer;
+    cursor: default;
     border-radius: 0.5rem;
     border: none;
     outline: none;
@@ -455,7 +529,7 @@ ul {
     background-color: var(--blue-gray);
 }
 
-.project-popup > input[type="text"],
+/* .project-popup > input[type="text"], */
 .todo-popup > input[type="text"] {
     border-bottom: 1px solid var(--gray);
     width: 75%;

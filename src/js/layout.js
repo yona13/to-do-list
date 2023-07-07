@@ -18,8 +18,8 @@ export default class Layout extends DOMElement{
         this.search = new Search();
         this.popup = new Popup();
         this.content = new Content(this.data, this.popup);
-        this.menu = new Menu(this.data, this.content, this.popup);
-        this.nav = new Navigator(this.search, this.menu);
+        this.menu = new Menu(this.data, this.content);
+        this.nav = new Navigator(this.content, this.search, this.menu);
 
         this.container.addEventListener("click", (e) => {
             this.menu.toggle();
