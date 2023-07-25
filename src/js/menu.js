@@ -31,7 +31,6 @@ export default class Menu extends DOMElement {
         }
 
         this.#render();
-        content.title = "To-Dos"; // default;
     }
 
     get data () { return this._data; }
@@ -68,8 +67,8 @@ export default class Menu extends DOMElement {
         // Clear Content
         this.container.innerHTML = "";
 
-        // Add Today, Week & Upcoming Tags
-        ["Today", "Week", "Upcoming"].forEach(h => {
+        // Add Today & Week Tags
+        ["Today", "Week"].forEach(h => {
             const menuTag = document.createElement("div");
             menuTag.classList.add("menu-tag");
             menuTag.id = `${h}-tag`;
@@ -80,8 +79,6 @@ export default class Menu extends DOMElement {
                 icon.classList.add("fa-sun");
             else if (h === "Week")
                 icon.classList.add("fa-calendar-week");
-            else
-                icon.classList.add("fa-calendar-days");
             const text = document.createElement("div");
             text.textContent = h;
             menuTag.appendChild(icon);
@@ -90,8 +87,8 @@ export default class Menu extends DOMElement {
         });
 
         // Add Project List
-        const projects = new ProjectList("project");
-        projects.render(this.data, this.content);
+        const projects = new ProjectList("project", this.data, this.content);
+        projects.render();
 
         // Add Create Project Button
         const create = document.createElement("button");
@@ -99,7 +96,7 @@ export default class Menu extends DOMElement {
         create.textContent = "+ Project";
         create.addEventListener("click", (e) => {
             // this.#popup();
-            projects.render(this.data, this.content, true);
+            projects.render(true);
         });
 
         // Append Elements to Menu Container

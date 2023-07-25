@@ -4,7 +4,7 @@ import Data from "./data.js";
 import DOMElement from "./dom-element.js";
 import Popup from "./popup.js";
 import Priorities from "./priorities.js";
-import ToDoTable from "./to-do-table.js";
+import ToDoList from "./to-do-list.js";
 
 export default class Content extends DOMElement {
     /**
@@ -18,6 +18,7 @@ export default class Content extends DOMElement {
         this.data = data;
         this.popup = popup;
 
+        this.title = "To-Dos";
         this.#render();
     }
 
@@ -143,13 +144,9 @@ export default class Content extends DOMElement {
         // Clear Content
         this.container.innerHTML = "";
 
-        // Add Title to Content
-        // const contentTitle = document.createElement("h1");
-        // contentTitle.classList.add("content-title");
-        // contentTitle.textContent = this.title;
-
-        // Add To-Do Table
-        const todos = new ToDoTable(this.title, this.data);
+        // Add To-Do List
+        const todos = new ToDoList("todo");
+        todos.render(this.data, this);
 
         // Add Create To-Do Button
         const create  = document.createElement("button");
@@ -158,9 +155,6 @@ export default class Content extends DOMElement {
         create.addEventListener("click", (e) => {
             this.#popup();
         });
-
-        // this.container.appendChild(contentTitle);
-        this.container.appendChild(todos.table);
         this.container.appendChild(create);
     }
 };

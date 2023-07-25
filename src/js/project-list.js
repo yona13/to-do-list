@@ -3,25 +3,59 @@ import Data from "./data.js";
 import ItemList from "./item-list.js";
 
 export default class ProjectList extends ItemList {
-    constructor (id) {
+    #newProject = true;
+    
+    /**
+     * 
+     * @param {String} id 
+     * @param {Data} data 
+     * @param {Content} content 
+     */
+    constructor (id, data, content) {
         super(id);
+
+        this.data = data;
+        this.content = content;
+        document.addEventListener("keydown", (e) => {
+            if (this.#newProject && e.key === "Escape")
+                this.render();
+        });
     }
 
     /**
+     * @returns {Data} data object
+     */
+    get data () { return this._data; }
+
+    /**
+     * @param {Data} obj
+     */
+    set data (obj) { this._data = obj; }
+
+    /**
+     * @returns {Content} content object
+     */
+    get content () { return this._content; }
+
+    /**
+     * @param {Content} obj
+     */
+    set content (obj) { this._content = obj; }
+
+    /**
      * 
-     * @param {Data} data 
-     * @param {Content} content
      * @param {boolean} add 
      */
-    render (data, content, add=false) {
+    render (add=false) {
+        this.#newProject = add;
         this.list.innerHTML = "";
 
         // Iterate through Projects and build List
-        data.projects.forEach(p => {
+        this.data.projects.forEach(p => {
             // Create Project Item for List
             const item = document.createElement("div");
             item.classList.add("project-item");
-            item.addEventListener("click", (e) => { content.title = p.name; });
+            item.addEventListener("click", (e) => { this.content.title = p.name; });
 
             // Add Colour Tag for Project Item
             const tag = document.createElement("div");
@@ -39,10 +73,10 @@ export default class ProjectList extends ItemList {
             del.textContent = "x";
             del.addEventListener("click", (e) => {
                 data.deleteProject(p.name);
-                if (content.title === p.name)
-                    content.title = "To-Dos";
+                if (this.content.title === p.name)
+                    this.content.title = "To-Dos";
                 e.stopPropagation();
-                this.render(data, content);
+                this.render();
             });
 
             // Append Elements to Project Item
@@ -80,8 +114,8 @@ export default class ProjectList extends ItemList {
                 if (name.value === "" || name.value === "New Project")
                     window.alert("Please add a name for your new project.");
                 else {
-                    data.addProject(name.value, colour.value);
-                    this.render(data, content);
+                    this.data.addProject(name.value, colour.value);
+                    this.render();
                 }
             });
 

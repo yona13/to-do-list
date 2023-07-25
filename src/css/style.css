@@ -131,44 +131,20 @@ button {
 .content {
     order: 2;
     width: 75vw;
+    display: grid;
+    grid-template-rows: 5fr 1fr;
+    grid-template-areas: 
+        "list"
+        "button";
 }
 
-.to-do-table {
-    width: 50vw;
+.to-do-list {
+    grid-area: list;
+    overflow: hidden;
 }
-
-td {
-    text-align: center;
-    background-color: var(--blue-gray);
-    color: var(--ivory);
-}
-
-.date-header {}
-
-.date-header::before {
-    content: "";
-    position: absolute;
-    left: 70vw;
-    top: 0.25rem;
-    width: 0.5rem;
-    height: 0.5rem;
-    border: 2px solid var(--teal);
-    border-top: transparent;
-    border-right: transparent;
-    transform: rotate(-45deg);
-    pointer-events: none;
-    transition: all 0.3s linear;
-}
-
-/* .content-title {
-    margin: 2rem;
-}
-
-.content-list {
-    margin: 1rem 2rem;
-} */
 
 .add-to-do {
+    grid-area: button;
     margin: 1rem 2rem;
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -187,8 +163,6 @@ td {
 
 .sidebar > * {
     margin-left: 1rem;
-    /* margin-top: 1rem; */
-    /* padding-left: 1rem; */
 }
 
 .menu-tag {
@@ -202,7 +176,6 @@ td {
 .menu-tag > i {
     position: relative;
     top: 0.125rem;
-    /* font-size: 1rem; */
     cursor: default;
 }
 
@@ -309,9 +282,6 @@ ul {
 
 .tag-colour {
     font-size: 1.2rem;
-    /* width: 0.4rem;
-    height: 1rem;
-     */
 }
 
 .add-project {

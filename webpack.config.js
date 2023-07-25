@@ -21,7 +21,7 @@ module.exports = {
         priorities: "./src/js/priorities.js",
         projectList: "./src/js/project-list.js",
         search: "./src/js/search.js",
-        toDoTable: "./src/js/to-do-table.js",
+        toDoList: "./src/js/to-do-list.js",
     }, 
     mode: "development", 
     module: {
