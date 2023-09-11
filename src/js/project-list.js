@@ -123,7 +123,7 @@ export default class ProjectList extends ItemList {
             const cancel = document.createElement("button");
             cancel.textContent = "Cancel";
             cancel.classList.add("new-project-cancel");
-            cancel.addEventListener("click", (e) => { this.render(data, content); });
+            cancel.addEventListener("click", (e) => { this.render(); });
 
             // Append Elements to New-Project Item
             newProject.appendChild(colour);

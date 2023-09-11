@@ -27,9 +27,9 @@ export default class ToDoList extends ItemList {
         data.todos.forEach(todo => {
             if (this.dateType === this.#DATE_TYPES.TODAY && isToday(parseISO(todo.date)))
                 newList.push(todo);
-            else if (this.dateType === this.#DATE_TYPES.WEEK && isThisWeek(todo.date))
+            else if (this.dateType === this.#DATE_TYPES.WEEK && isThisWeek(parseISO(todo.date)))
                 newList.push(todo);
-            else
+            else if (this.dateType === this.#DATE_TYPES.NONE)
                 newList.push(todo);
         });
 
@@ -37,6 +37,8 @@ export default class ToDoList extends ItemList {
             newList.sort(compareAsc);
         else
             newList.sort(compareDesc);
+
+        console.log(newList);
 
         return newList;
     }
@@ -60,13 +62,28 @@ export default class ToDoList extends ItemList {
     render (data, content) {
         this.list.innerHTML = "";
 
-        if (content.title !== "To-Dos") {
-            this.#setDateType(content.title.toLowerCase());
-            const newData = this.#sort(data);
+        this.#setDateType(content.title.toLowerCase());
+        const newData = this.#sort(data);
+        console.log(newData.length);
 
-            newData.forEach(todo => {
-                
-            });
+        if (newData.length === 0) {
+            const emptySet = document.createElement("li");
+            emptySet.textContent = "No Plans!";
+            this.list.appendChild(emptySet);
         }
+
+        newData.forEach(todo => {
+            console.log(todo);
+            // Create To-Do Item for List
+            const item = document.createElement("div");
+            item.classList.add("todo-item");
+            
+            // Add Checkbox for Item
+            const itemCheck = document.createElement("input");
+            itemCheck.type = "checkbox";
+
+            item.appendChild(itemCheck);
+            this.list.appendChild(item);
+        });
     }
 };

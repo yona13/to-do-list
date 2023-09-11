@@ -147,6 +147,7 @@ export default class Content extends DOMElement {
         // Add To-Do List
         const todos = new ToDoList("todo");
         todos.render(this.data, this);
+        this.container.appendChild(todos.list);
 
         // Add Create To-Do Button
         const create  = document.createElement("button");
