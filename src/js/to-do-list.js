@@ -7,13 +7,23 @@ export default class ToDoList extends ItemList {
     #DATE_TYPES = {
         NONE: 0,
         TODAY: 1,
-        WEEK: 2
+        WEEK: 2,
+        COMPLETE: 3
     };
+
+    get data () { return this._data; }
+
+    set data (update) { this._data = update; }
+
+    get content () { return this._content; }
+
+    set content (fresh) { this._content = fresh; }
 
     dateType = this.#DATE_TYPES.NONE;
 
     constructor (id) {
         super(id);
+        this.data = {};
     }
 
     /**
@@ -29,6 +39,7 @@ export default class ToDoList extends ItemList {
                 newList.push(todo);
             else if (this.dateType === this.#DATE_TYPES.WEEK && isThisWeek(parseISO(todo.date)))
                 newList.push(todo);
+            // else if (todo.
             else if (this.dateType === this.#DATE_TYPES.NONE)
                 newList.push(todo);
         });
@@ -54,6 +65,11 @@ export default class ToDoList extends ItemList {
             this.dateType = this.#DATE_TYPES.NONE;
     }
 
+    listener (name) {
+        this.data.toggleToDoComplete(name);
+        this.render(this.data, this.content);
+    }
+
     /**
      * 
      * @param {Data} data 
@@ -61,6 +77,8 @@ export default class ToDoList extends ItemList {
      */
     render (data, content) {
         this.list.innerHTML = "";
+        this.data = data;
+        this.content = content;
 
         this.#setDateType(content.title.toLowerCase());
         const newData = this.#sort(data);
@@ -76,13 +94,29 @@ export default class ToDoList extends ItemList {
             console.log(todo);
             // Create To-Do Item for List
             const item = document.createElement("div");
-            item.classList.add("todo-item");
+            item.classList.add("to-do-item");
             
             // Add Checkbox for Item
             const itemCheck = document.createElement("input");
             itemCheck.type = "checkbox";
+            itemCheck.addEventListener("click", (e) => { this.listener(todo.name); });
+            
+            // Add Content for Item
+            const itemContent = document.createElement("div");
+            itemContent.id = todo.id;
+            // itemContent.textContent = todo.name;
+            if (todo.complete) {
+                itemContent.innerHTML = todo.name.strike();
+                itemCheck.checked = true;
+            } else
+                itemContent.textContent = todo.name;
+            
+            // itemCheck.addEventListener("click", (e) => {
+            //     var check = this.data.toggleToDoComplete(todo.name);
+            // });
 
             item.appendChild(itemCheck);
+            item.appendChild(itemContent);
             this.list.appendChild(item);
         });
     }

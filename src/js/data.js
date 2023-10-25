@@ -6,6 +6,15 @@ export default class Data {
             this.projects = [];
 
         if (localStorage.getItem("todos"))
+        //     var oldData = JSON.parse(localStorage.getItem("todos") || []);
+        //     oldData.forEach(todo => {
+        //         // todo.complete = true;
+        //         console.log(todo);
+        //     });
+
+        //     this.todos = oldData;
+        //     this.save("todos");
+        // }
             this.todos = JSON.parse(localStorage.getItem("todos") || "[]");
         else
             this.todos = [];
@@ -62,10 +71,12 @@ export default class Data {
             this.todos.push(
                 {
                     name: name, 
+                    id: this.todos.length,
                     priority: priority, 
                     description: description, 
                     project: pDict, 
-                    date: new Date(date)
+                    date: new Date(date),
+                    complete: false
                 }
             );
             this.save("todos");
@@ -78,6 +89,25 @@ export default class Data {
             this.todos.splice(index, 1);
             this.save("todos");
         }
+    }
+
+    toggleToDoComplete (name) {
+        const index = this.#indexOfToDo(name);
+        console.log(name + " has index " + index.toString());
+        console.log(`Completeness: ${this.todos[index].complete}`)
+        if (index !== -1) 
+            this.todos[index].complete = !this.todos[index].complete
+        this.save("todos");
+
+        return this.todos[index].complete
+    }
+
+    identifyToDo (name) {
+        const index = this.#indexOfToDo(name);
+        if (index !== -1)
+            return this.todos[index];
+        else
+            return {};
     }
 
     save (key) {

@@ -143,6 +143,14 @@ button {
     overflow: hidden;
 }
 
+.to-do-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
+    gap: 1rem;
+}
+
 .add-to-do {
     grid-area: button;
     margin: 1rem 2rem;
@@ -175,7 +183,7 @@ button {
 
 .menu-tag > i {
     position: relative;
-    top: 0.125rem;
+    p: 0.125rem;
     cursor: default;
 }
 
