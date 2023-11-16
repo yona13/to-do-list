@@ -93,6 +93,18 @@ export default class ToDoList extends ItemList {
         newData.forEach(todo => {
             console.log(todo);
             // Create To-Do Item for List
+            const itemContainer = document.createElement("div");
+            itemContainer.classList.add("to-do-item-container");
+
+            // Add Colour Code
+            const colourCode = document.createElement("div");
+            colourCode.classList.add("to-do-colour-code");
+            let colour = todo.project.colour;
+            if (colour === "")
+                colour = "#575366";
+            colourCode.style.backgroundColor = colour;
+            itemContainer.appendChild(colourCode);
+
             const item = document.createElement("div");
             item.classList.add("to-do-item");
             
@@ -104,20 +116,24 @@ export default class ToDoList extends ItemList {
             // Add Content for Item
             const itemContent = document.createElement("div");
             itemContent.id = todo.id;
-            // itemContent.textContent = todo.name;
+
+            // Strike-through Name if Complete
             if (todo.complete) {
                 itemContent.innerHTML = todo.name.strike();
                 itemCheck.checked = true;
             } else
                 itemContent.textContent = todo.name;
-            
-            // itemCheck.addEventListener("click", (e) => {
-            //     var check = this.data.toggleToDoComplete(todo.name);
-            // });
+
+            // Add Details Button
+
+            // Add Date
+
+            // Add Delete Button
 
             item.appendChild(itemCheck);
             item.appendChild(itemContent);
-            this.list.appendChild(item);
+            itemContainer.appendChild(item);
+            this.list.appendChild(itemContainer);
         });
     }
 };
