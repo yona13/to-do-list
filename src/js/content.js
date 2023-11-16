@@ -145,7 +145,7 @@ export default class Content extends DOMElement {
         this.container.innerHTML = "";
 
         // Add To-Do List
-        const todos = new ToDoList("todo");
+        const todos = new ToDoList("todo", this.popup);
         todos.render(this.data, this);
         this.container.appendChild(todos.list);
 

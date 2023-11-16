@@ -1,6 +1,7 @@
 import Content from "./content.js";
 import Data from "./data.js";
 import ItemList from "./item-list.js";
+import Popup from "./popup.js";
 import { compareAsc, compareDesc, isThisWeek, isToday, parseISO } from "date-fns";
 
 export default class ToDoList extends ItemList {
@@ -19,11 +20,16 @@ export default class ToDoList extends ItemList {
 
     set content (fresh) { this._content = fresh; }
 
+    get popup () { return this._popup; }
+
+    set popup (obj) { this._popup = obj; }
+
     dateType = this.#DATE_TYPES.NONE;
 
-    constructor (id) {
+    constructor (id, popup) {
         super(id);
         this.data = {};
+        this.popup = popup;
     }
 
     /**
@@ -63,6 +69,22 @@ export default class ToDoList extends ItemList {
             this.dateType = this.#DATE_TYPES.UPCOMING;
         else
             this.dateType = this.#DATE_TYPES.NONE;
+    }
+
+    #popup (todo) {
+        console.log(todo.description);
+        // Create Popup Element
+        const detailsPopup = document.createElement("div");
+        detailsPopup.classList.add("to-do-details-popup");
+
+        // Add To Do Title
+        const popupTitle = document.createElement("div");
+        popupTitle.classList.add("to-do-details-title");
+        popupTitle.textContent = todo.name;
+
+        // Append Elements to Popup Window
+        detailsPopup.appendChild(popupTitle);
+        this.popup.enter(detailsPopup);
     }
 
     listener (name) {
@@ -108,6 +130,10 @@ export default class ToDoList extends ItemList {
             const item = document.createElement("div");
             item.classList.add("to-do-item");
             
+            // Left-Hand Item Block
+            const leftBlock = document.createElement("div");
+            leftBlock.classList.add("to-do-left-block");
+
             // Add Checkbox for Item
             const itemCheck = document.createElement("input");
             itemCheck.type = "checkbox";
@@ -124,14 +150,28 @@ export default class ToDoList extends ItemList {
             } else
                 itemContent.textContent = todo.name;
 
+            // Right-Hand Item Block
+            const rightBlock = document.createElement("div");
+            rightBlock.classList.add("to-do-right-block");
+            
             // Add Details Button
+            const details = document.createElement("button");
+            details.classList.add("to-do-details");
+            details.textContent = "Details";
+            details.addEventListener("click", (e) => {
+                this.#popup(todo);
+            });
 
             // Add Date
 
             // Add Delete Button
 
-            item.appendChild(itemCheck);
-            item.appendChild(itemContent);
+            // Append Children to Elements
+            leftBlock.appendChild(itemCheck);
+            leftBlock.appendChild(itemContent);
+            rightBlock.appendChild(details);
+            item.appendChild(leftBlock);
+            item.appendChild(rightBlock);
             itemContainer.appendChild(item);
             this.list.appendChild(itemContainer);
         });

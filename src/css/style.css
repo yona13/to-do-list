@@ -157,12 +157,30 @@ button {
 .to-do-item {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* gap: 1rem; */
+    padding: 0.5rem;
+    border: solid 1px var(--davys-gray);
+}
+
+.to-do-item > div {
+    display: flex;
+    flex-direction: row;
     justify-content: baseline;
     align-items: center;
     gap: 1rem;
-    padding: 0.5rem;
-    /* margin: 0.5rem; */
-    border: solid 1px var(--davys-gray);
+}
+
+.to-do-details {
+    background-color: inherit;
+    border: solid 0.1rem var(--ivory);
+    border-radius: 0.1rem;
+}
+
+.to-do-details:hover {
+    background-color: var(--ivory);
 }
 
 .to-do-colour-code {
@@ -352,8 +370,9 @@ ul {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-.project-popup,
-.todo-popup {
+.todo-popup,
+.to-do-details-popup {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -361,11 +380,6 @@ ul {
     color: var(--gray);
 }
 
-.todo-popup {
-    position: relative;
-}
-
-.project-popup > input,
 .todo-popup > input {
     background: none;
     border: none;
@@ -382,6 +396,10 @@ ul {
 .todo-popup > textarea:focus {
     border: 1px solid var(--teal);
     outline: none;
+}
+
+.to-do-details-title {
+    font-size: larger;
 }
 
 .todo-enabler-container,
@@ -526,7 +544,6 @@ ul {
     background-color: var(--blue-gray);
 }
 
-/* .project-popup > input[type="text"], */
 .todo-popup > input[type="text"] {
     border-bottom: 1px solid var(--gray);
     width: 75%;
