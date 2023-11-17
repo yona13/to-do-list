@@ -20,7 +20,6 @@ export default class Priorities {
     #updateButtons (value) {
         this.container.childNodes.forEach(button => {
             if (button.value === value){
-                console.log(`Selected button: ${this.priority};`);
                 button.classList.add("clicked");
             }
             else

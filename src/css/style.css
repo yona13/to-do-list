@@ -58,9 +58,18 @@ button {
     font-weight: bold;
 }
 
-.toolbar {
+.toolbar,
+.title-block,
+.priority-date-block,
+.priority-side,
+.date-side {
     display: flex;
     flex-direction: row;
+}
+
+.title-block,
+.priority-date-block {
+    gap: 2rem;
 }
 
 .search-block {
@@ -185,7 +194,7 @@ button {
 
 .to-do-colour-code {
     width: 0.3rem;
-    height: 38px;
+    height: 42px;
 }
 
 .add-to-do {
@@ -398,8 +407,10 @@ ul {
     outline: none;
 }
 
-.to-do-details-title {
+.to-do-details-title,
+.to-do-details-project {
     font-size: larger;
+    font-weight: bolder;
 }
 
 .todo-enabler-container,
@@ -411,11 +422,36 @@ ul {
     width: 80%;
 }
 
+.priority-title,
+.priority-block,
+.date-title,
+.date-block,
+.description-title,
+.to-do-date-detail,
 .priority-button {
     outline: none;
     border: 1px solid var(--ivory);
     border-radius: 0.5rem;
     font-weight: bold;
+}
+
+.to-do-date-detail {
+    outline: none;
+    border-radius: 0.5rem;
+    padding: 0.1rem;
+}
+
+.priority-title,
+.priority-block,
+.date-title,
+.description-title,
+.date-block {
+    padding: 0.5rem;
+}
+
+.to-do-date-detail,
+.description-block-content {
+    font-style: italic;
 }
 
 #low-priority {

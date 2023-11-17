@@ -6,15 +6,6 @@ export default class Data {
             this.projects = [];
 
         if (localStorage.getItem("todos"))
-        //     var oldData = JSON.parse(localStorage.getItem("todos") || []);
-        //     oldData.forEach(todo => {
-        //         // todo.complete = true;
-        //         console.log(todo);
-        //     });
-
-        //     this.todos = oldData;
-        //     this.save("todos");
-        // }
             this.todos = JSON.parse(localStorage.getItem("todos") || "[]");
         else
             this.todos = [];
@@ -93,8 +84,6 @@ export default class Data {
 
     toggleToDoComplete (name) {
         const index = this.#indexOfToDo(name);
-        console.log(name + " has index " + index.toString());
-        console.log(`Completeness: ${this.todos[index].complete}`)
         if (index !== -1) 
             this.todos[index].complete = !this.todos[index].complete
         this.save("todos");

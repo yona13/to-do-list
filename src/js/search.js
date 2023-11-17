@@ -24,7 +24,6 @@ export default class Search extends DOMElement {
         this.searchbar.addEventListener("keypress", (e) => {
             if (e.key === "Enter") {
                 this.#searching = true;
-                console.log(`Searching for ${this.searchbar.value};`);
                 // TODO: Implement Search..
                 this.toggle();
                 this.searchbar.value = "";

@@ -12,6 +12,12 @@ export default class ToDoList extends ItemList {
         COMPLETE: 3
     };
 
+    #PRIORITY = {
+        0: "Low",
+        1: "Medium",
+        2: "High"
+    };
+
     get data () { return this._data; }
 
     set data (update) { this._data = update; }
@@ -45,7 +51,6 @@ export default class ToDoList extends ItemList {
                 newList.push(todo);
             else if (this.dateType === this.#DATE_TYPES.WEEK && isThisWeek(parseISO(todo.date)))
                 newList.push(todo);
-            // else if (todo.
             else if (this.dateType === this.#DATE_TYPES.NONE)
                 newList.push(todo);
         });
@@ -54,8 +59,6 @@ export default class ToDoList extends ItemList {
             newList.sort(compareAsc);
         else
             newList.sort(compareDesc);
-
-        console.log(newList);
 
         return newList;
     }
@@ -71,19 +74,104 @@ export default class ToDoList extends ItemList {
             this.dateType = this.#DATE_TYPES.NONE;
     }
 
+    #getDateString (day, month, year) {
+        if (day === 1 && month === 1 && year === 1970)
+            return "";
+
+        var dateString = "";
+        if (day < 10)
+            dateString = "0";
+        dateString += `${day}/`;
+        if (month < 10)
+            dateString += "0"
+        dateString += `${month}/`;
+        if (year < 2000)
+            year -= 1900;
+        else
+            year -= 2000;
+        
+        if (year < 10)
+            dateString += "0";
+        dateString += `${year}`;
+
+        return dateString;
+    }
+
     #popup (todo) {
-        console.log(todo.description);
         // Create Popup Element
         const detailsPopup = document.createElement("div");
         detailsPopup.classList.add("to-do-details-popup");
 
-        // Add To Do Title
+        // Add To Do Title & Project Type
+        const titleBlock = document.createElement("div");
+        titleBlock.classList.add("title-block");
         const popupTitle = document.createElement("div");
         popupTitle.classList.add("to-do-details-title");
         popupTitle.textContent = todo.name;
+        titleBlock.appendChild(popupTitle);
+
+        const popupProject = document.createElement("div");
+        popupProject.classList.add("to-do-details-project");
+        if (todo.project.name !== "") {
+            popupProject.textContent = todo.project.name;
+            popupProject.style.color = todo.project.colour;
+            titleBlock.appendChild(popupProject);
+        }
+
+        // Add Priority & Date of Task
+        const priorityDateBlock = document.createElement("div");
+        priorityDateBlock.classList.add("priority-date-block");
+
+        const prioritySide = document.createElement("div");
+        prioritySide.classList.add("priority-side");
+        const priorityTitle = document.createElement("div");
+        priorityTitle.classList.add("priority-title");
+        priorityTitle.textContent = "Priority:";
+        const priorityBlock = document.createElement("div");
+        priorityBlock.classList.add("priority-block");
+        priorityBlock.id = `${this.#PRIORITY[todo.id].toLowerCase()}-priority`;
+        priorityBlock.textContent = this.#PRIORITY[todo.id];
+        prioritySide.appendChild(priorityTitle);
+        prioritySide.appendChild(priorityBlock);
+
+        const dateSide = document.createElement("div");
+        dateSide.classList.add("date-side");
+        const dateTitle = document.createElement("div");
+        dateTitle.classList.add("date-title");
+        dateTitle.textContent = "Date:";
+        const dateBlock = document.createElement("div");
+        dateBlock.classList.add("date-block");
+        var date = new Date(todo.date);
+        dateBlock.textContent = this.#getDateString(date.getUTCDate(), date.getUTCMonth() + 1, date.getUTCFullYear());
+        const addDate = dateBlock.textContent !== "";
+        dateSide.appendChild(dateTitle);
+        dateSide.appendChild(dateBlock);
+        
+        priorityDateBlock.appendChild(prioritySide);
+        if (addDate)
+            priorityDateBlock.appendChild(dateSide);
+
+        // Add Description of Task
+        const addDesc = todo.description !== "";
+        const descriptionBlock = document.createElement("div");
+        if (addDesc) {
+            descriptionBlock.classList.add("description-block");
+            const descTitle = document.createElement("div");
+            descTitle.classList.add("description-title");
+            descTitle.textContent = "Description:";
+            const descContent = document.createElement("div");
+            descContent.classList.add("description-block-content");
+            descContent.textContent = todo.description;
+
+            descriptionBlock.appendChild(descTitle);
+            descriptionBlock.appendChild(descContent);
+        }
 
         // Append Elements to Popup Window
-        detailsPopup.appendChild(popupTitle);
+        detailsPopup.appendChild(titleBlock);
+        detailsPopup.appendChild(priorityDateBlock);
+        if (addDesc)
+            detailsPopup.appendChild(descriptionBlock);
         this.popup.enter(detailsPopup);
     }
 
@@ -104,7 +192,7 @@ export default class ToDoList extends ItemList {
 
         this.#setDateType(content.title.toLowerCase());
         const newData = this.#sort(data);
-        console.log(newData.length);
+        (newData.length);
 
         if (newData.length === 0) {
             const emptySet = document.createElement("li");
@@ -113,7 +201,7 @@ export default class ToDoList extends ItemList {
         }
 
         newData.forEach(todo => {
-            console.log(todo);
+            (todo);
             // Create To-Do Item for List
             const itemContainer = document.createElement("div");
             itemContainer.classList.add("to-do-item-container");
@@ -163,13 +251,32 @@ export default class ToDoList extends ItemList {
             });
 
             // Add Date
+            var date = new Date(todo.date);
+            var dateString = this.#getDateString(date.getUTCDate(), date.getUTCMonth() + 1, date.getUTCFullYear());
+            if (dateString === "")
+                dateString = "No Date!";
+            const dateDetail = document.createElement("div");
+            dateDetail.classList.add("to-do-date-detail");
+            dateDetail.textContent = dateString;
+            console.log(todo.priority);
+            dateDetail.id = `${todo.priority}-priority`;
 
             // Add Delete Button
+            const deleteButton = document.createElement("i");
+            deleteButton.classList.add("fa-solid");
+            deleteButton.classList.add("fa-recycle");
+            deleteButton.style.color = "#c00600";
+            deleteButton.addEventListener("click", (e) => {
+                this.data.deleteToDo(todo.name);
+                this.render(data, content);
+            });
 
             // Append Children to Elements
             leftBlock.appendChild(itemCheck);
             leftBlock.appendChild(itemContent);
             rightBlock.appendChild(details);
+            rightBlock.appendChild(dateDetail);
+            rightBlock.appendChild(deleteButton);
             item.appendChild(leftBlock);
             item.appendChild(rightBlock);
             itemContainer.appendChild(item);
