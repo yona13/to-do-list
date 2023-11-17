@@ -8,4 +8,4 @@ Webtool for tracking tasks based on customisable projects.
  * Three priorities, low, medium, and high.
  * Responsive UI.
  * Data saved to local storage.
- * Sort by date or Projec.
+ * Sort by date or Project.
