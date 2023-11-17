@@ -1,7 +1,6 @@
 import Content from "./content.js";
 import Data from "./data.js";
 import ItemList from "./item-list.js";
-import Popup from "./popup.js";
 import { compareAsc, compareDesc, isThisWeek, isToday, parseISO } from "date-fns";
 
 export default class ToDoList extends ItemList {
@@ -41,17 +40,20 @@ export default class ToDoList extends ItemList {
     /**
      * 
      * @param {Data} data 
+     * @param {String} title
      * @param {Boolean} asc
      * @returns {Object[]}
      */
-    #sort(data, asc=true) {
+    #sort(data, title, asc=true) {
         const newList = [];
         data.todos.forEach(todo => {
             if (this.dateType === this.#DATE_TYPES.TODAY && isToday(parseISO(todo.date)))
                 newList.push(todo);
             else if (this.dateType === this.#DATE_TYPES.WEEK && isThisWeek(parseISO(todo.date)))
                 newList.push(todo);
-            else if (this.dateType === this.#DATE_TYPES.NONE)
+            else if (this.dateType === this.#DATE_TYPES.NONE && title !== "to-dos" && todo.project.name.toLowerCase() === title)
+                newList.push(todo);
+            else if (this.dateType === this.#DATE_TYPES.NONE && title === "to-dos")
                 newList.push(todo);
         });
 
@@ -191,7 +193,7 @@ export default class ToDoList extends ItemList {
         this.content = content;
 
         this.#setDateType(content.title.toLowerCase());
-        const newData = this.#sort(data);
+        const newData = this.#sort(data, content.title.toLowerCase());
         (newData.length);
 
         if (newData.length === 0) {

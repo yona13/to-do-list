@@ -1,17 +1,15 @@
 import Content from "./content.js";
 import DOMElement from "./dom-element.js";
 import Menu from "./menu.js";
-import Search from "./search.js";
 
 export default class Navigator extends DOMElement {
     
     /**
      * 
      * @param {Content} content
-     * @param {Search} search 
      * @param {Menu} menu 
      */
-    constructor (content, search, menu) {
+    constructor (content, menu) {
         super("nav");
 
         // Add Title with "Logo" to Navigation Panel
@@ -26,7 +24,6 @@ export default class Navigator extends DOMElement {
         toolbar.classList.add("toolbar");
 
         // Add Elements to Toolbar
-        toolbar.appendChild(search.container);
         toolbar.appendChild(menu.button);
 
         // Add Elements to Container

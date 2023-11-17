@@ -4,7 +4,6 @@ import DOMElement from "./dom-element.js";
 import Menu from "./menu.js";
 import Navigator from "./navigator.js";
 import Popup from "./popup.js";
-import Search from "./search.js";
 
 export default class Layout extends DOMElement{
     constructor () {
@@ -15,15 +14,13 @@ export default class Layout extends DOMElement{
         this.main.classList.add("main");
 
         this.data = new Data();
-        this.search = new Search();
         this.popup = new Popup();
         this.content = new Content(this.data, this.popup);
         this.menu = new Menu(this.data, this.content);
-        this.nav = new Navigator(this.content, this.search, this.menu);
+        this.nav = new Navigator(this.content, this.menu);
 
         this.container.addEventListener("click", (e) => {
             this.menu.toggle();
-            this.search.toggle();
         });
 
         document.body.appendChild(this.container);

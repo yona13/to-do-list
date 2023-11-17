@@ -20,7 +20,6 @@ module.exports = {
         popup: "./src/js/popup.js",
         priorities: "./src/js/priorities.js",
         projectList: "./src/js/project-list.js",
-        search: "./src/js/search.js",
         toDoList: "./src/js/to-do-list.js",
     }, 
     mode: "development", 

@@ -72,37 +72,6 @@ button {
     gap: 2rem;
 }
 
-.search-block {
-    font-size: 2rem;
-    padding: 0.6rem;
-    margin-right: 1rem;
-    border-radius: 0.4rem;
-    width: 2.3rem;
-    transition: 0.4s width ease-in-out;
-}
-
-.search-block:hover {
-    background-color: var(--violet);
-}
-
-.find {
-    width: 15rem;
-    background-color: var(--violet);
-}
-
-.searchbar {
-    width: 0;
-    background: none;
-    outline: none;
-    border: none;
-    color: inherit;
-    transition: 0.4s width ease-in-out;
-}
-
-.searching {
-    width: 12rem;
-}
-
 .sidebar-button {
     display: none;
     cursor: default;
@@ -629,20 +598,6 @@ input[type="checkbox"]:checked::before {
 @media (max-width: 550px) {
     .logo {
         font-size: 2rem;
-    }
-
-    .search-block {
-        font-size: 1.5rem;
-        padding: 1rem;
-        width: 1.8rem;
-    }
-
-    .find {
-        width: 8rem;
-    }
-
-    .searching {
-        width: 5rem;
     }
 
     .sidebar-button {
